@@ -8,7 +8,9 @@ import airports from "../../data/airports";
 const SearchFlight = () => {
   const navigate = useNavigate();
   const [tripType, setTripType] = useState("one-way");
-  const [departureDate, setDepartureDate] = useState();
+  const [departureDate, setDepartureDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [returnDate, setReturnDate] = useState();
   const [passengers, setPassengers] = useState("1");
   // New state for From and To input values
@@ -25,10 +27,8 @@ const SearchFlight = () => {
     if (!departureDate) newErrors.departureDate = "Required input field";
     if (tripType === "round-trip" && !returnDate)
       newErrors.returnDate = "Required input field";
-    console.log("call");
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      console.log(newErrors);
       return false;
     }
     return true;
@@ -167,7 +167,11 @@ const SearchFlight = () => {
               onClick={() => {
                 if (!handleSearch()) return;
                 navigate(
-                  `/accessible/availability?from=${from}&to=${to}&departure=${departureDate}&return=${returnDate}&passengers=${passengers}&tripType=${tripType}`
+                  `/accessible/availability?from=${getPortCode(
+                    from
+                  )}&to=${getPortCode(
+                    to
+                  )}&departure=${departureDate}&return=${returnDate}&passengers=${passengers}&tripType=${tripType}`
                 );
               }}
             >
@@ -229,6 +233,7 @@ const InputArea = ({
           }}
           onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
           min={label === "Passengers" ? 1 : ""}
+          autoComplete="off"
         />
         {showDropdown && filteredOptions.length > 0 && (
           <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-md mt-1 max-h-48 overflow-y-auto">
@@ -237,7 +242,7 @@ const InputArea = ({
                 key={index}
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                 onMouseDown={() => {
-                  setInputValue(item.city);
+                  setInputValue(`${item.city}, ${item.country}, ${item.code}`);
                   setShowDropdown(false);
                 }}
               >
@@ -254,4 +259,12 @@ const InputArea = ({
       )}
     </div>
   );
+};
+
+const getPortCode = (info) => {
+  const portCode = info.split(",")[2];
+  if (portCode) {
+    return portCode.trim();
+  }
+  return null;
 };

@@ -12,7 +12,7 @@ const mockFlights = [
     returnDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0],
-    returnTime: new Date(new Date().setHours(10, 30, 0, 0)),
+    returnTime: "10:30",
     price: 1200,
   },
   {
@@ -28,7 +28,7 @@ const mockFlights = [
     returnDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0],
-    returnTime: new Date(new Date().setHours(11, 0, 0, 0)),
+    returnTime: "11:00",
     price: 1300,
   },
   {
@@ -44,7 +44,7 @@ const mockFlights = [
     returnDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0],
-    returnTime: new Date(new Date().setHours(9, 45, 0, 0)),
+    returnTime: "09:45",
     price: 1400,
   },
   {
@@ -60,7 +60,7 @@ const mockFlights = [
     returnDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0],
-    returnTime: new Date(new Date().setHours(8, 0, 0, 0)),
+    returnTime: "08:00",
     price: 1500,
   },
   {
@@ -76,7 +76,7 @@ const mockFlights = [
     returnDate: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0],
-    returnTime: new Date(new Date().setHours(12, 15, 0, 0)),
+    returnTime: "12:15",
     price: 1600,
   },
   {
@@ -92,7 +92,7 @@ const mockFlights = [
     returnDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0],
-    returnTime: new Date(new Date().setHours(13, 0, 0, 0)),
+    returnTime: "13:00",
     price: 1700,
   },
   {
@@ -108,7 +108,7 @@ const mockFlights = [
     returnDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0],
-    returnTime: new Date(new Date().setHours(14, 0, 0, 0)),
+    returnTime: "14:00",
     price: 1800,
   },
   {
@@ -124,7 +124,7 @@ const mockFlights = [
     returnDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0],
-    returnTime: new Date(new Date().setHours(15, 0, 0, 0)),
+    returnTime: "15:00",
     price: 1900,
   },
   {
@@ -140,7 +140,7 @@ const mockFlights = [
     returnDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0],
-    returnTime: new Date(new Date().setHours(16, 0, 0, 0)),
+    returnTime: "16:00",
     price: 2000,
   },
   {
@@ -156,9 +156,26 @@ const mockFlights = [
     returnDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split("T")[0],
-    returnTime: new Date(new Date().setHours(17, 0, 0, 0)),
+    returnTime: "17:00",
     price: 2100,
   },
+  {
+    id: 11,
+    fromLoc: "ADB",
+    toLoc: "AYT",
+    fromDate: new Date().toISOString().split("T")[0],
+    fromTime: new Date(new Date().setHours(12, 40, 0, 0)),
+    duration: {
+      hours: 1,
+      minutes: 20,
+    },
+    returnDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0],
+    returnTime: "11:00",
+    price: 1600,
+  },
+  // Continue converting the rest of the flights in the same manner
 ];
 
 export default mockFlights;
