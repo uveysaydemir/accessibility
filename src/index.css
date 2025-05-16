@@ -1,4 +1,4 @@
-/* index.css */
+/* index.css
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -20,4 +20,8 @@ body {
     margin-top: 4px;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
+  } */
+
+  @tailwind base;
+@tailwind components;
+@tailwind utilities;

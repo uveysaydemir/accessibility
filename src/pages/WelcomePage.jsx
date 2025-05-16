@@ -5,28 +5,12 @@ export const LogoVariant = {
 };
 export default function WelcomePage() {
   return (
-    <div
-      className="container"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: "20px",
-      }}
-    >
-      <div style={{ flex: 1 }}>
-        <h1 style={{ textAlign: "center" }}>Choose One of the Brand</h1>
+    <div className="flex flex-col p-5 h-screen">
+      <div className="flex-1">
+        <h1 className="text-center">Choose One of the Brand</h1>
       </div>
 
-      <div
-        className="logo-container"
-        style={{
-          display: "flex",
-          flex: 9,
-          justifyContent: "center",
-          padding: "20px",
-          height: "90vh",
-        }}
-      >
+      <div className="flex flex-9 justify-center p-5 h-[90vh]">
         <Logo variant={LogoVariant.GOOD} />
         <Logo variant={LogoVariant.BAD} />
       </div>
