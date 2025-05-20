@@ -14,6 +14,8 @@ const mockFlights = [
       .split("T")[0],
     returnTime: "10:30",
     price: 1200,
+    flexPrice: 1200 * 1.2,
+    premiumPrice: 1200 * 1.5,
   },
   {
     id: 2,
@@ -30,6 +32,8 @@ const mockFlights = [
       .split("T")[0],
     returnTime: "11:00",
     price: 1300,
+    flexPrice: 1300 * 1.2,
+    premiumPrice: 1300 * 1.5,
   },
   {
     id: 3,
@@ -46,6 +50,8 @@ const mockFlights = [
       .split("T")[0],
     returnTime: "09:45",
     price: 1400,
+    flexPrice: 1400 * 1.2,
+    premiumPrice: 1400 * 1.5,
   },
   {
     id: 4,
@@ -62,6 +68,8 @@ const mockFlights = [
       .split("T")[0],
     returnTime: "08:00",
     price: 1500,
+    flexPrice: 1500 * 1.2,
+    premiumPrice: 1500 * 1.5,
   },
   {
     id: 5,
@@ -78,6 +86,8 @@ const mockFlights = [
       .split("T")[0],
     returnTime: "12:15",
     price: 1600,
+    flexPrice: 1600 * 1.2,
+    premiumPrice: 1600 * 1.5,
   },
   {
     id: 6,
@@ -94,6 +104,8 @@ const mockFlights = [
       .split("T")[0],
     returnTime: "13:00",
     price: 1700,
+    flexPrice: 1700 * 1.2,
+    premiumPrice: 1700 * 1.5,
   },
   {
     id: 7,
@@ -110,6 +122,8 @@ const mockFlights = [
       .split("T")[0],
     returnTime: "14:00",
     price: 1800,
+    flexPrice: 1800 * 1.2,
+    premiumPrice: 1800 * 1.5,
   },
   {
     id: 8,
@@ -126,6 +140,8 @@ const mockFlights = [
       .split("T")[0],
     returnTime: "15:00",
     price: 1900,
+    flexPrice: 1900 * 1.2,
+    premiumPrice: 1900 * 1.5,
   },
   {
     id: 9,
@@ -142,6 +158,8 @@ const mockFlights = [
       .split("T")[0],
     returnTime: "16:00",
     price: 2000,
+    flexPrice: 2000 * 1.2,
+    premiumPrice: 2000 * 1.5,
   },
   {
     id: 10,
@@ -158,6 +176,8 @@ const mockFlights = [
       .split("T")[0],
     returnTime: "17:00",
     price: 2100,
+    flexPrice: 2100 * 1.2,
+    premiumPrice: 2100 * 1.5,
   },
   {
     id: 11,
@@ -174,8 +194,27 @@ const mockFlights = [
       .split("T")[0],
     returnTime: "11:00",
     price: 1600,
+    flexPrice: 1600 * 1.2,
+    premiumPrice: 1600 * 1.5,
   },
-  // Continue converting the rest of the flights in the same manner
+  {
+    id: 12,
+    fromLoc: "SAW",
+    toLoc: "ADB",
+    fromDate: new Date().toISOString().split("T")[0],
+    fromTime: new Date(new Date().setHours(9, 10, 0, 0)),
+    duration: {
+      hours: 1,
+      minutes: 10,
+    },
+    returnDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0],
+    returnTime: "10:30",
+    price: 1400,
+    flexPrice: 1400 * 1.2,
+    premiumPrice: 1400 * 1.5,
+  },
 ];
 
 export default mockFlights;
