@@ -16,8 +16,8 @@ export const searchFlight = (fromLoc, toLoc, departureDate) => {
 };
 
 export const getFlight = (flightId) => {
-  const flight = mockFlights.find((flight) => flight.id === flightId);
-  return flight ? flight : null;
+  const flight = mockFlights.find((flight) => flight.id === Number(flightId));
+  return flight || null;
 };
 
 export const calculateLandingTime = (departureTime, duration) => {

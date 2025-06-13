@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAirport, searchFlight } from "../../utils";
-import GoodFlightLogoHeader from "../../assets/GoodFlightLogoHeader.png";
+import BadFlightLogoHeader from "../../assets/BadFlightLogoHeader.png";
 import { Calendar, Plane, Users } from "lucide-react";
 
 export default function Availibility() {
@@ -120,7 +120,7 @@ function Flight({ flight, navigate }) {
             price={flight.price}
             onClick={() => {
               navigate(
-                `/accessible/passenger-info?flightId=${flight.id}&fareType=BASIC`
+                `/nonaccessible/passenger-info?flightId=${flight.id}&fareType=BASIC`
               );
             }}
           />
@@ -132,7 +132,7 @@ Standard seat selection`}
             onClick={() => {
               // Handle Flex fare selection
               navigate(
-                `/accessible/passenger-info?flightId=${flight.id}&fareType=FLEX`
+                `/nonaccessible/passenger-info?flightId=${flight.id}&fareType=FLEX`
               );
             }}
           />
@@ -146,7 +146,7 @@ Flexible Refund`}
             onClick={() => {
               // Handle Premium fare selection
               navigate(
-                `/accessible/passenger-info?flightId=${flight.id}&fareType=PREMIUM`
+                `/nonaccessible/passenger-info?flightId=${flight.id}&fareType=PREMIUM`
               );
             }}
           />
@@ -188,7 +188,7 @@ function FlightInfo({ from, to, departure, passengers }) {
       <div className="flex justify-center">
         <img
           className="h-16 w-full rounded-t-xl"
-          src={GoodFlightLogoHeader}
+          src={BadFlightLogoHeader}
           alt="logo"
         />
       </div>

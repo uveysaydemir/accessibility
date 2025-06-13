@@ -2,9 +2,11 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AccessibleSearchFlight from "./pages/accessible/SearchFlight";
 import NonAccessibleSearchFlight from "./pages/nonaccessible/SearchFlight";
+import NonAccessibleAvailability from "./pages/nonaccessible/Availability";
+import NonAccessiblePassengerInfo from "./pages/nonaccessible/PassengerInfo";
 import WelcomePage from "./pages/WelcomePage";
 import Availability from "./pages/accessible/Availability";
-import PassangerInfo from "./pages/accessible/PassangerInfo";
+import PassengerInfo from "./pages/accessible/PassengerInfo";
 
 function App() {
   return (
@@ -16,10 +18,18 @@ function App() {
           element={<AccessibleSearchFlight />}
         />
         <Route path="/accessible/availability" element={<Availability />} />
-        <Route path="/accessible/passanger-info" element={<PassangerInfo />} />
+        <Route path="/accessible/passenger-info" element={<PassengerInfo />} />
         <Route
           path="/nonaccessible/SearchFlight"
           element={<NonAccessibleSearchFlight />}
+        />
+        <Route
+          path="/nonaccessible/availability"
+          element={<NonAccessibleAvailability />}
+        />
+        <Route
+          path="/nonaccessible/passenger-info"
+          element={<NonAccessiblePassengerInfo />}
         />
       </Routes>
     </Router>
