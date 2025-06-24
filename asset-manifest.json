@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/accesibility/static/css/main.a9968979.css",
-    "main.js": "/accesibility/static/js/main.fe63ce5d.js",
+    "main.js": "/accesibility/static/js/main.c508a33d.js",
     "static/js/453.50ba31a6.chunk.js": "/accesibility/static/js/453.50ba31a6.chunk.js",
     "static/media/GoodFlightLogo.png": "/accesibility/static/media/GoodFlightLogo.ec180d39a73585a2ac18.png",
     "static/media/BadFlightLogo.png": "/accesibility/static/media/BadFlightLogo.df6d06d24b55256c00ad.png",
@@ -9,11 +9,11 @@
     "static/media/BadFlightLogoHeader.png": "/accesibility/static/media/BadFlightLogoHeader.6e3e270bb26422ca1d16.png",
     "index.html": "/accesibility/index.html",
     "main.a9968979.css.map": "/accesibility/static/css/main.a9968979.css.map",
-    "main.fe63ce5d.js.map": "/accesibility/static/js/main.fe63ce5d.js.map",
+    "main.c508a33d.js.map": "/accesibility/static/js/main.c508a33d.js.map",
     "453.50ba31a6.chunk.js.map": "/accesibility/static/js/453.50ba31a6.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a9968979.css",
-    "static/js/main.fe63ce5d.js"
+    "static/js/main.c508a33d.js"
   ]
 }
