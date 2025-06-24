@@ -1,5 +1,5 @@
 import "./App.css";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AccessibleSearchFlight from "./pages/accessible/SearchFlight";
 import NonAccessibleSearchFlight from "./pages/nonaccessible/SearchFlight";
 import NonAccessibleAvailability from "./pages/nonaccessible/Availability";
@@ -10,7 +10,7 @@ import PassengerInfo from "./pages/accessible/PassengerInfo";
 
 function App() {
   return (
-    <Router basename="/accesibility">
+    <Router>
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route

@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import GoodFlightLogoHeader from "../../assets/GoodFlightLogoHeader.png";
 import { getAirport, getFlight } from "../../utils";
 import { Calendar, Plane, Users } from "lucide-react";
-import { use, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function PassengerInfo() {
   const location = useLocation();
@@ -23,10 +23,13 @@ export default function PassengerInfo() {
       ? getFlight(flightId)?.premiumPrice
       : null;
   useEffect(() => {
-    console.log(getFlight(flightId));
+    getFlight(flightId);
   }, []);
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+    <main
+      className="flex flex-col items-center justify-center min-h-screen p-4"
+      lang="tr"
+    >
       <div className="flex justify-center mt-4 gap-8">
         <FlightInfo
           from={from}
@@ -39,7 +42,7 @@ export default function PassengerInfo() {
         />
         <PaymentForm price={price} />
       </div>
-    </div>
+    </main>
   );
 }
 
@@ -53,23 +56,54 @@ function FlightInfo({
   price,
 }) {
   return (
-    <div className="min-w-60 border rounded-xl h-[60vh] w-[17vw] flex flex-col justify-between">
+    <section
+      className="min-w-60 border rounded-xl h-[60vh] w-[17vw] flex flex-col justify-between"
+      aria-labelledby="flight-info-heading"
+    >
+      <h1 id="flight-info-heading" className="sr-only">
+        Uçuş Bilgisi Kartı
+      </h1>
       <div className="flex justify-center">
         <img
           className="h-16 w-full rounded-t-xl"
           src={GoodFlightLogoHeader}
           alt="logo"
+          aria-hidden="true"
         />
       </div>
       <div className="">
-        <div className="flex-1 grid grid-cols-3 px-10 mb-4">
+        <div
+          className="flex-1 grid grid-cols-3 px-10 mb-4"
+          aria-label={`Kalkış noktası: ${getAirportName(
+            from
+          )} havalimanı, Varış noktası: ${getAirportName(
+            to
+          )} havalimanı, Kalkış: ${new Date(departure).toLocaleTimeString(
+            "tr-TR",
+            {
+              hour: "2-digit",
+              minute: "2-digit",
+            }
+          )}, 
+        Varış: ${new Date(
+          new Date(departure).getTime() +
+            (duration.hours * 60 + duration.minutes) * 60 * 1000
+        ).toLocaleTimeString("tr-TR", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })},
+        Uçuş süresi: ${duration.hours} saat ${duration.minutes} dakika`}
+        >
           <div className="items-center justify-center flex flex-col text-center">
             <div className="rounded-lg w-auto flex flex-col items-center justify-center">
-              <div className="h-[3em] w-[3em] bg-gray-300 rounded-md flex items-center justify-center text-2xl mb-2">
+              <div
+                className="h-[3em] w-[3em] bg-gray-300 rounded-md flex items-center justify-center text-2xl mb-2"
+                aria-hidden="true"
+              >
                 {from}
               </div>
-              <p>{getAirportName(from)}</p>
-              <p>
+              <p aria-hidden="true">{getAirportName(from)}</p>
+              <p aria-hidden="true">
                 {new Date(departure).toLocaleTimeString("tr-TR", {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -80,18 +114,21 @@ function FlightInfo({
           <div className="flex items-center justify-center flex-col text-center mb-16">
             <Plane className="w-[4em] opacity-50" />
             <div className="text-center">
-              <p className="">
+              <p className="" aria-hidden="true">
                 {duration.hours}s {duration.minutes}dk
               </p>
             </div>
           </div>
           <div className="items-center justify-center flex flex-col text-center">
             <div className="rounded-lg w-auto flex flex-col items-center justify-center">
-              <div className="h-[3em] w-[3em] bg-gray-300 rounded-md flex items-center justify-center text-2xl mb-2">
+              <div
+                className="h-[3em] w-[3em] bg-gray-300 rounded-md flex items-center justify-center text-2xl mb-2"
+                aria-hidden="true"
+              >
                 {to}
               </div>
-              <p>{getAirportName(to)}</p>
-              <p>
+              <p aria-hidden="true">{getAirportName(to)}</p>
+              <p aria-hidden="true">
                 {new Date(
                   new Date(departure).getTime() +
                     (duration.hours * 60 + duration.minutes) * 60 * 1000
@@ -104,21 +141,39 @@ function FlightInfo({
           </div>
         </div>
         <div className="flex items-center justify-center flex-col gap-4">
-          <div className="flex items-center justify-between w-full px-6 flex-col">
-            <p className="text-lg font-bold">Uçuş Tipi</p>
-            <p className="text-lg text-bold">{fareType}</p>
+          <div
+            className="flex items-center justify-between w-full px-6 flex-col"
+            aria-label={`Uçuş tipi: ${fareType}, Fiyat: ${price} Türk Lirası`}
+          >
+            <p className="text-lg font-bold" aria-hidden="true">
+              Uçuş Tipi
+            </p>
+            <p className="text-lg text-bold" aria-hidden="true">
+              {fareType}
+            </p>
           </div>
         </div>
       </div>
       <div className="h-20 bg-gray-200 rounded-b-xl border-t-2 border-dashed border-gray-400">
-        <div className="flex items-center justify-between h-full px-6">
-          <p className=" text-lg font-bold flex items-center gap-2">
+        <div
+          className="flex items-center justify-between h-full px-6"
+          aria-label={`Yolcu sayısı: ${passengers}, Tarih: ${new Date(
+            departure
+          ).toLocaleDateString("tr-TR")}`}
+        >
+          <p
+            className=" text-lg font-bold flex items-center gap-2"
+            aria-hidden="true"
+          >
             <span>
               <Users />
             </span>
             {passengers}
           </p>
-          <p className=" text-lg font-bold flex items-center gap-2">
+          <p
+            className=" text-lg font-bold flex items-center gap-2"
+            aria-hidden="true"
+          >
             <span>
               <Calendar />
             </span>
@@ -126,7 +181,7 @@ function FlightInfo({
           </p>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 function getAirportName(code) {
@@ -134,12 +189,43 @@ function getAirportName(code) {
 }
 
 function PaymentForm({ price }) {
+  const [expiry, setExpiry] = useState("");
+
+  const handleExpiryChange = (e) => {
+    let input = e.target.value.replace(/\D/g, ""); // remove non-digits
+    if (input.length >= 3) {
+      input = input.slice(0, 2) + "/" + input.slice(2, 4);
+    }
+    setExpiry(input);
+  };
+
+  const blockNonNumeric = (e) => {
+    const allowed = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"];
+    if (!/^\d$/.test(e.key) && !allowed.includes(e.key)) {
+      e.preventDefault();
+    }
+  };
   return (
-    <div className="min-w-60 border rounded-xl h-[60vh] w-[20vw] flex flex-col justify-between p-6 bg-white shadow-md">
-      <h2 className="text-xl font-bold mb-4 text-center">Ödeme Bilgileri</h2>
-      <div className="mb-6 text-center">
-        <p className="text-lg mb-2">Toplam Tutar</p>
-        <p className="font-bold text-lg">{price} TRY</p>
+    <section
+      className="min-w-60 border rounded-xl h-[60vh] w-[20vw] flex flex-col justify-between p-6 bg-white shadow-md"
+      aria-labelledby="payment-form-heading"
+    >
+      <h2
+        id="payment-form-heading"
+        className="text-xl font-bold mb-4 text-center"
+      >
+        Ödeme Bilgileri
+      </h2>
+      <div
+        className="mb-6 text-center"
+        aria-label={`Toplam tutar: ${price} Türk Lirası`}
+      >
+        <p className="text-lg mb-2" aria-hidden="true">
+          Toplam Tutar
+        </p>
+        <p className="font-bold text-lg" aria-hidden="true">
+          {price} TRY
+        </p>
       </div>
       <form
         className="flex flex-col gap-4"
@@ -147,56 +233,153 @@ function PaymentForm({ price }) {
         name="payment-form"
       >
         <div>
-          <label className="block text-sm font-medium mb-1">
+          <label
+            id="cardNumber-label"
+            htmlFor="cardNumber"
+            className="block text-sm font-medium mb-1"
+            aria-hidden="true"
+          >
             Kart Numarası
           </label>
           <input
+            id="cardNumber"
+            aria-labelledby="cardNumber-label"
+            aria-describedby="cardNumber-hint"
             type="text"
             className="w-full border border-gray-300 rounded px-3 py-2"
-            placeholder="1234 5678 9012 3456"
             autoComplete="off"
+            inputMode="numeric"
+            maxLength={16}
+            onKeyDown={blockNonNumeric}
           />
+          <p
+            id="cardNumber-hint"
+            className="text-xs text-gray-500"
+            aria-hidden="true"
+          >
+            16 haneli kart numarası girin
+          </p>
         </div>
+
         <div>
-          <label className="block text-sm font-medium mb-1">Ad Soyad</label>
+          <label
+            id="nameOnCard-label"
+            htmlFor="nameOnCard"
+            className="block text-sm font-medium mb-1"
+            aria-hidden="true"
+          >
+            Ad Soyad
+          </label>
           <input
+            id="nameOnCard"
+            aria-labelledby="nameOnCard-label"
+            aria-describedby="nameOnCard-hint"
             type="text"
             className="w-full border border-gray-300 rounded px-3 py-2"
-            placeholder="Adınız Soyadınız"
             autoComplete="off"
           />
+          <p
+            id="nameOnCard-hint"
+            className="text-xs text-gray-500"
+            aria-hidden="true"
+          >
+            Kart üzerindeki ad ve soyadı girin
+          </p>
         </div>
+
         <div className="flex gap-4">
           <div className="flex-1">
-            <label className="block text-sm font-medium mb-1">SKT</label>
+            <label
+              id="expiry-label"
+              htmlFor="expiry"
+              className="block text-sm font-medium mb-1"
+              aria-hidden="true"
+            >
+              Son Kullanma Tarihi
+            </label>
             <input
+              id="expiry"
+              aria-labelledby="expiry-label"
+              aria-describedby="expiry-hint"
               type="text"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              placeholder="AA/YY"
               autoComplete="off"
+              onKeyDown={blockNonNumeric}
+              inputMode="numeric"
+              maxLength={5}
+              value={expiry}
+              onChange={handleExpiryChange}
             />
+            <p
+              id="expiry-hint"
+              className="text-xs text-gray-500"
+              aria-hidden="true"
+            >
+              Son kullanma tarihini AA/YY formatında girin
+            </p>
           </div>
+
           <div className="flex-1">
-            <label className="block text-sm font-medium mb-1">CVV</label>
+            <label
+              id="cvv-label"
+              htmlFor="cvv"
+              className="block text-sm font-medium mb-1"
+              aria-hidden="true"
+            >
+              Güvenlik Kodu (CVV)
+            </label>
             <input
+              id="cvv"
+              aria-labelledby="cvv-label"
+              aria-describedby="cvv-hint"
               type="password"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              placeholder="123"
               autoComplete="off"
+              inputMode="numeric"
+              maxLength={3}
+              onKeyDown={blockNonNumeric}
             />
+            <p
+              id="cvv-hint"
+              className="text-xs text-gray-500"
+              aria-hidden="true"
+            >
+              Kartınızın arkasındaki 3 haneli güvenlik kodunu girin
+            </p>
           </div>
         </div>
+
         <button
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded mt-4"
           onClick={(e) => {
             e.preventDefault();
+            if (
+              !document.getElementById("cardNumber").value ||
+              !document.getElementById("nameOnCard").value ||
+              !expiry ||
+              !document.getElementById("cvv").value
+            ) {
+              alert("Lütfen tüm alanları doldurun.");
+              return;
+            }
             alert("Ödeme işlemi başarıyla tamamlandı!");
             window.location.href = "/";
+            const alertElement = document.createElement("div");
+            alertElement.setAttribute("role", "alert");
+            alertElement.setAttribute("aria-live", "assertive");
+            alertElement.style.position = "absolute";
+            alertElement.style.top = "-9999px";
+            alertElement.textContent = "Ödeme işlemi başarıyla tamamlandı!";
+            document.body.appendChild(alertElement);
+
+            setTimeout(() => {
+              document.body.removeChild(alertElement);
+            }, 3000);
           }}
         >
           Ödemeyi Tamamla
         </button>
       </form>
-    </div>
+    </section>
   );
 }

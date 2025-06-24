@@ -59,18 +59,7 @@ const SearchFlight = () => {
                 onChange={() => setTripType("one-way")}
                 className="accent-blue-600"
               />
-              <span>One Way</span>
-            </label>
-            <label className="flex items-center space-x-2 text-gray-700">
-              <input
-                type="radio"
-                name="tripType"
-                value="round-trip"
-                checked={tripType === "round-trip"}
-                onChange={() => setTripType("round-trip")}
-                className="accent-blue-600"
-              />
-              <span>Round Trip</span>
+              <span>Tek Yön</span>
             </label>
           </div>
 
@@ -81,8 +70,7 @@ const SearchFlight = () => {
               <div className="flex items-center space-x-2">
                 <PlaneTakeoff className="text-gray-500" />
                 <InputArea
-                  label="From"
-                  placeholder="From"
+                  label={Labels.FROM}
                   type="text"
                   data={airports}
                   value={from}
@@ -97,8 +85,7 @@ const SearchFlight = () => {
               <div className="flex items-center space-x-2">
                 <PlaneLanding className="text-gray-500" />
                 <InputArea
-                  label="To"
-                  placeholder="To"
+                  label={Labels.TO}
                   type="text"
                   data={airports}
                   value={to}
@@ -113,7 +100,7 @@ const SearchFlight = () => {
               <div className="flex items-center space-x-2">
                 <Calendar className="text-gray-500" />
                 <InputArea
-                  label="Departure"
+                  label={Labels.DEPARTURE}
                   placeholder="Select"
                   type="date"
                   value={
@@ -133,7 +120,7 @@ const SearchFlight = () => {
                 <div className="flex items-center space-x-2">
                   <Calendar className="text-gray-500" />
                   <InputArea
-                    label="Return"
+                    label={Labels.RETURN}
                     placeholder="Please Select"
                     type="date"
                     value={returnDate}
@@ -151,8 +138,8 @@ const SearchFlight = () => {
             <div className="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg">
               <User className="text-gray-500" />
               <InputArea
-                label="Passengers"
-                placeholder="1 Passenger"
+                label={Labels.PASSENGERS}
+                placeholder="1"
                 type="number"
                 data={airports}
                 value={passengers}
@@ -175,7 +162,7 @@ const SearchFlight = () => {
                 );
               }}
             >
-              Search Flight
+              Uçuş Ara
             </button>
           </div>
         </div>
@@ -214,7 +201,6 @@ const InputArea = ({
           );
         })
       : [];
-
   return (
     <div className="flex flex-col rounded-lg p-2 relative">
       <label htmlFor={label} className="text-gray-600 text-sm">
@@ -268,3 +254,11 @@ const getPortCode = (info) => {
   }
   return null;
 };
+
+class Labels {
+  static FROM = "Kalkış";
+  static TO = "Varış";
+  static DEPARTURE = "Tarih";
+  static RETURN = "Dönüş";
+  static PASSENGERS = "Yolcu Sayısı";
+}

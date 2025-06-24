@@ -65,14 +65,13 @@ function Flight({ flight, navigate }) {
   );
 
   return (
-    <div
+    <section
       className="flex flex-col gap-4 rounded-lg border-2 p-4"
-      aria-label="Uçuş Seçenekleri"
+      aria-labelledby={`flight-${flight.id}-heading`}
       lang="tr"
     >
-      <div
-        className="flex justify-between items-center"
-        aria-label={`Uçuş Bilgisi: ${getAirport(fromLoc).name} - ${
+      <h2 id={`flight-${flight.id}-heading`} className="sr-only">
+        {`Uçuş Bilgisi: ${getAirport(fromLoc).name} - ${
           getAirport(toLoc).name
         }, Kalkış: ${departureTime.toLocaleTimeString("tr-TR", {
           hour: "2-digit",
@@ -83,44 +82,50 @@ function Flight({ flight, navigate }) {
         })}, Süre: ${duration.hours} saat ${
           duration.minutes
         } dakika, Fiyat: ${price} Türk Lirası`}
-        lang="tr"
-      >
+      </h2>
+      <div className="flex justify-between items-center">
         <div>
-          <p className="text-xl font-semibold">
-            {departureTime.toLocaleTimeString("en-GB", {
+          <p className="text-xl font-semibold" aria-hidden="true">
+            {departureTime.toLocaleTimeString("tr-TR", {
               hour: "2-digit",
               minute: "2-digit",
             })}
           </p>
-          <p className="font-medium text-xl">{fromLoc}</p>
+          <p className="font-medium text-xl" aria-hidden="true">
+            {fromLoc}
+          </p>
         </div>
 
         <div className="text-center text-sm text-gray-700">
-          <p>
-            {duration.hours}h {duration.minutes}m
+          <p aria-hidden="true">
+            {duration.hours}s {duration.minutes}dk
           </p>
         </div>
 
         <div>
-          <p className="text-xl font-semibold text-right">
-            {arrivalTime.toLocaleTimeString("en-GB", {
+          <p className="text-xl font-semibold text-right" aria-hidden="true">
+            {arrivalTime.toLocaleTimeString("tr-TR", {
               hour: "2-digit",
               minute: "2-digit",
             })}
           </p>
-          <p className="font-medium text-right">{toLoc}</p>
+          <p className="font-medium text-xl" aria-hidden="true">
+            {toLoc}
+          </p>
         </div>
 
         <div className="text-right">
-          <p className="text-lg font-bold">{price} TRY</p>
+          <p className="text-lg font-bold" aria-hidden="true">
+            {price} TRY
+          </p>
           <button
             onClick={() => setShowOptions(!showOptions)}
-            className="text-blue-600 hover:underline text-sm min-w-28"
+            className="text-blue-600 hover:underline text-sm w-36 text-left px-1"
             aria-expanded={showOptions}
             aria-controls="fare-options"
           >
             {showOptions ? (
-              <span className="text-blue-600 ">
+              <span className="text-blue-600">
                 <span aria-hidden="true">▲</span> Seçenekleri gizle
               </span>
             ) : (
@@ -138,7 +143,7 @@ function Flight({ flight, navigate }) {
         >
           <FareCard
             type="BASIC"
-            packageOption="15 kg baggage allowance"
+            packageOption="15 kg bagaj hakkı"
             price={flight.price}
             onClick={() => {
               navigate(
@@ -148,8 +153,7 @@ function Flight({ flight, navigate }) {
           />
           <FareCard
             type="FLEX"
-            packageOption={`20 kg baggage allowance
-Standard seat selection`}
+            packageOption={`20 kg bagaj hakkı`}
             price={flight.flexPrice}
             onClick={() => {
               // Handle Flex fare selection
@@ -160,10 +164,10 @@ Standard seat selection`}
           />
           <FareCard
             type="PREMIUM"
-            badge="RECOMMENDED"
-            packageOption={`25 kg baggage allowance
-Premium seat selection
-Flexible Refund`}
+            badge="En Popüler"
+            packageOption={`25 kg bagaj hakkı
+Premium koltuk seçimi
+Esnek İade ve Değişiklik`}
             price={flight.premiumPrice}
             onClick={() => {
               // Handle Premium fare selection
@@ -174,7 +178,7 @@ Flexible Refund`}
           />
         </div>
       )}
-    </div>
+    </section>
   );
 }
 
@@ -198,10 +202,10 @@ function FareCard({ onClick, type, packageOption, price, badge }) {
       <div className="flex items-end">
         <button
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-          aria-label={`${type} seçeneği için ödeme yapı ${price} Türk Lirası`}
+          aria-label={`${type} seçeneği için ödeme yapın ${price} Türk Lirası`}
           onClick={onClick}
         >
-          {price} Türk Lirası
+          {price} TRY
         </button>
       </div>
     </div>
@@ -212,14 +216,18 @@ function FlightInfo({ from, to, departure, passengers }) {
   return (
     <section
       className="min-w-60 border rounded-xl h-[60vh] w-[17vw] flex flex-col justify-between"
-      aria-label="Uçuş Bilgisi Kartı"
+      aria-labelledby="flight-info-heading"
       lang="tr"
     >
+      <h1 id="flight-info-heading" className="sr-only">
+        Uçuş Bilgisi Kartı
+      </h1>
       <div className="flex justify-center">
         <img
           className="h-16 w-full rounded-t-xl"
           src={GoodFlightLogoHeader}
           alt="Good Flight Logo"
+          aria-hidden="true"
         />
       </div>
 
@@ -239,7 +247,7 @@ function FlightInfo({ from, to, departure, passengers }) {
             >
               {from}
             </div>
-            <p>{getAirportName(from)}</p>
+            <p aria-hidden="true">{getAirportName(from)}</p>
           </div>
         </div>
 
@@ -258,7 +266,7 @@ function FlightInfo({ from, to, departure, passengers }) {
             >
               {to}
             </div>
-            <p>{getAirportName(to)}</p>
+            <p aria-hidden="true">{getAirportName(to)}</p>
           </div>
         </div>
       </div>
@@ -274,7 +282,7 @@ function FlightInfo({ from, to, departure, passengers }) {
             aria-label={`Yolcu sayısı: ${passengers}`}
           >
             <Users aria-hidden="true" />
-            {passengers} Yolcu
+            <div aria-hidden="true">{passengers}</div>
           </p>
           <p
             className="text-lg font-bold flex items-center gap-2"
@@ -283,7 +291,9 @@ function FlightInfo({ from, to, departure, passengers }) {
             )}`}
           >
             <Calendar aria-hidden="true" />
-            {new Date(departure).toLocaleDateString("tr-TR")}
+            <div aria-hidden="true">
+              {new Date(departure).toLocaleDateString("tr-TR")}
+            </div>
           </p>
         </div>
       </div>
