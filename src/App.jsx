@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import AccessibleSearchFlight from "./pages/accessible/SearchFlight";
 import NonAccessibleSearchFlight from "./pages/nonaccessible/SearchFlight";
 import NonAccessibleAvailability from "./pages/nonaccessible/Availability";
