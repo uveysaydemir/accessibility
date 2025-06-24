@@ -1,6 +1,6 @@
 //ACCESSIBLE
 import { Calendar, PlaneLanding, PlaneTakeoff, User } from "lucide-react";
-import { useState } from "react";
+import React, { useState, useRef } from "react";
 import HeaderLogo from "../../assets/GoodFlightLogoHeader.png";
 import { useNavigate } from "react-router-dom";
 import airports from "../../data/airports";
@@ -19,6 +19,12 @@ const SearchFlight = () => {
   // New state for search results
   const [errors, setErrors] = useState({});
 
+  // Refs for inputs
+  const fromRef = useRef(null);
+  const toRef = useRef(null);
+  const departureRef = useRef(null);
+  const returnRef = useRef(null);
+
   // Handler for searching flights
   const handleSearch = () => {
     const newErrors = {};
@@ -29,9 +35,28 @@ const SearchFlight = () => {
       newErrors.returnDate = "Required input field";
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      // Focus first errored field
+      if (newErrors.from && fromRef.current) {
+        fromRef.current.focus();
+      } else if (newErrors.to && toRef.current) {
+        toRef.current.focus();
+      } else if (newErrors.departureDate && departureRef.current) {
+        departureRef.current.focus();
+      } else if (newErrors.returnDate && returnRef.current) {
+        returnRef.current.focus();
+      }
       return false;
     }
     return true;
+  };
+
+  // Function to clear a field's error
+  const clearFieldError = (field) => {
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      delete newErrors[field];
+      return newErrors;
+    });
   };
 
   return (
@@ -46,7 +71,7 @@ const SearchFlight = () => {
       <div className="relative z-10 -mt-20 px-5">
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-screen-xl mx-auto">
           <h1 className="text-xl font-semibold mb-6">
-            Accessible Search Flight
+            Erişilebilir Uçuş Arama
           </h1>
           {/* Trip Type Selection */}
           <div className="flex space-x-6 mb-6">
@@ -76,6 +101,8 @@ const SearchFlight = () => {
                   value={from}
                   setValue={setFrom}
                   error={errors.from}
+                  ref={fromRef}
+                  clearError={() => clearFieldError("from")}
                 />
               </div>
             </div>
@@ -91,13 +118,15 @@ const SearchFlight = () => {
                   value={to}
                   setValue={setTo}
                   error={errors.to}
+                  ref={toRef}
+                  clearError={() => clearFieldError("to")}
                 />
               </div>
             </div>
 
             {/* Departure */}
             <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2" lang="tr">
                 <Calendar className="text-gray-500" />
                 <InputArea
                   label={Labels.DEPARTURE}
@@ -110,32 +139,17 @@ const SearchFlight = () => {
                   }
                   setValue={setDepartureDate}
                   error={errors.departureDate}
+                  ref={departureRef}
+                  clearError={() => clearFieldError("departureDate")}
                 />
               </div>
             </div>
 
-            {/* Return */}
-            {tripType === "round-trip" ? (
-              <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg">
-                <div className="flex items-center space-x-2">
-                  <Calendar className="text-gray-500" />
-                  <InputArea
-                    label={Labels.RETURN}
-                    placeholder="Please Select"
-                    type="date"
-                    value={returnDate}
-                    data={airports}
-                    setValue={setReturnDate}
-                    error={errors.returnDate}
-                  />
-                </div>
-              </div>
-            ) : (
-              <div />
-            )}
-
             {/* Passengers */}
-            <div className="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg">
+            <div
+              className="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg"
+              lang="tr"
+            >
               <User className="text-gray-500" />
               <InputArea
                 label={Labels.PASSENGERS}
@@ -173,79 +187,94 @@ const SearchFlight = () => {
 
 export default SearchFlight;
 
-const InputArea = ({
-  label,
-  placeholder,
-  type,
-  data = [],
-  value,
-  setValue,
-  error,
-}) => {
-  const [internalValue, setInternalValue] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
+const InputArea = React.forwardRef(
+  (
+    { label, placeholder, type, data = [], value, setValue, error, clearError },
+    ref
+  ) => {
+    const [internalValue, setInternalValue] = useState("");
+    const [showDropdown, setShowDropdown] = useState(false);
 
-  // Use controlled value if provided, otherwise use internal state
-  const inputValue = typeof value === "string" ? value : internalValue;
-  const setInputValue =
-    typeof setValue === "function" ? setValue : setInternalValue;
+    // Use controlled value if provided, otherwise use internal state
+    const inputValue = typeof value === "string" ? value : internalValue;
+    const setInputValue =
+      typeof setValue === "function" ? setValue : setInternalValue;
 
-  const filteredOptions =
-    type === "text" && inputValue
-      ? data?.filter((item) => {
-          const q = inputValue.toLowerCase();
-          return (
-            item.city.toLowerCase().includes(q) ||
-            item.name.toLowerCase().includes(q) ||
-            item.code.toLowerCase().includes(q)
-          );
-        })
-      : [];
-  return (
-    <div className="flex flex-col rounded-lg p-2 relative">
-      <label htmlFor={label} className="text-gray-600 text-sm">
-        {label}
-      </label>
-      <div>
-        <input
-          id={label}
-          placeholder={placeholder}
-          className="rounded-md p-2 w-full"
-          type={type}
-          value={inputValue}
-          onChange={(e) => {
-            setInputValue(e.target.value);
-            setShowDropdown(true);
-          }}
-          onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
-          min={label === "Passengers" ? 1 : ""}
-          autoComplete="off"
-        />
-        {showDropdown && filteredOptions.length > 0 && (
-          <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-md mt-1 max-h-48 overflow-y-auto">
-            {filteredOptions.map((item, index) => (
-              <li
-                key={index}
-                className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-                onMouseDown={() => {
-                  setInputValue(`${item.city}, ${item.country}, ${item.code}`);
-                  setShowDropdown(false);
-                }}
-              >
-                {item.city}, {item.country}, {item.code}
-              </li>
-            ))}
-          </ul>
+    const filteredOptions =
+      type === "text" && inputValue
+        ? data?.filter((item) => {
+            const q = inputValue.toLowerCase();
+            return (
+              item.city.toLowerCase().includes(q) ||
+              item.name.toLowerCase().includes(q) ||
+              item.code.toLowerCase().includes(q)
+            );
+          })
+        : [];
+    const errorId = error ? `${label}-error` : undefined;
+    return (
+      <div className="flex flex-col rounded-lg p-2 relative">
+        <label htmlFor={label} className="text-gray-600 text-sm">
+          {label}
+        </label>
+        <div>
+          <input
+            id={label}
+            placeholder={placeholder}
+            className="rounded-md p-2 w-full"
+            type={type}
+            value={inputValue}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+              setShowDropdown(true);
+            }}
+            onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
+            min={
+              type === "date"
+                ? new Date().toISOString().split("T")[0]
+                : label === "Passengers"
+                ? 1
+                : undefined
+            }
+            autoComplete="off"
+            ref={ref}
+            aria-invalid={error ? "true" : undefined}
+            aria-describedby={errorId}
+            lang="tr"
+          />
+          {showDropdown && filteredOptions.length > 0 && (
+            <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-md mt-1 max-h-48 overflow-y-auto">
+              {filteredOptions.map((item, index) => (
+                <li
+                  key={index}
+                  className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                  onMouseDown={() => {
+                    setInputValue(
+                      `${item.city}, ${item.country}, ${item.code}`
+                    );
+                    setShowDropdown(false);
+                    if (typeof clearError === "function") {
+                      clearError();
+                    }
+                  }}
+                  aria-label={`${item.city}, ${item.country}, ${item.code}`}
+                  lang="tr"
+                >
+                  {item.city}, {item.country}, {item.code}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        {error && (
+          <p id={errorId} className="text-sm text-red-500 mt-1">
+            Lütfen gerekli alanı doldurun
+          </p>
         )}
       </div>
-      {error && (
-        <p className="text-sm text-red-500 mt-1">
-          Lütfen gerekli alanı doldurun
-        </p>
-      )}
-    </div>
-  );
-};
+    );
+  }
+);
 
 const getPortCode = (info) => {
   const portCode = info.split(",")[2];

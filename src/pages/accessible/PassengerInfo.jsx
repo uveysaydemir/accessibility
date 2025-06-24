@@ -57,7 +57,7 @@ function FlightInfo({
 }) {
   return (
     <section
-      className="min-w-60 border rounded-xl h-[60vh] w-[17vw] flex flex-col justify-between"
+      className="w-[20vw] border rounded-xl h-[60vh]  flex flex-col justify-between"
       aria-labelledby="flight-info-heading"
     >
       <h1 id="flight-info-heading" className="sr-only">
@@ -207,12 +207,12 @@ function PaymentForm({ price }) {
   };
   return (
     <section
-      className="min-w-60 border rounded-xl h-[60vh] w-[20vw] flex flex-col justify-between p-6 bg-white shadow-md"
+      className="border rounded-xl h-[60vh] w-[20vw] flex flex-col justify-between p-6 bg-white shadow-md"
       aria-labelledby="payment-form-heading"
     >
       <h2
         id="payment-form-heading"
-        className="text-xl font-bold mb-4 text-center"
+        className="text-xl font-bold mb-3 text-center"
       >
         Ödeme Bilgileri
       </h2>
@@ -228,7 +228,7 @@ function PaymentForm({ price }) {
         </p>
       </div>
       <form
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-3"
         autoComplete="off"
         name="payment-form"
       >
