@@ -10,7 +10,7 @@ import PassengerInfo from "./pages/accessible/PassengerInfo";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/accesibility">
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route

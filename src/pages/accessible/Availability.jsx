@@ -65,8 +65,26 @@ function Flight({ flight, navigate }) {
   );
 
   return (
-    <div className="flex flex-col gap-4 rounded-lg border-2 p-4">
-      <div className="flex justify-between items-center">
+    <div
+      className="flex flex-col gap-4 rounded-lg border-2 p-4"
+      aria-label="Uçuş Seçenekleri"
+      lang="tr"
+    >
+      <div
+        className="flex justify-between items-center"
+        aria-label={`Uçuş Bilgisi: ${getAirport(fromLoc).name} - ${
+          getAirport(toLoc).name
+        }, Kalkış: ${departureTime.toLocaleTimeString("tr-TR", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })} - Varış: ${arrivalTime.toLocaleTimeString("tr-TR", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })}, Süre: ${duration.hours} saat ${
+          duration.minutes
+        } dakika, Fiyat: ${price} Türk Lirası`}
+        lang="tr"
+      >
         <div>
           <p className="text-xl font-semibold">
             {departureTime.toLocaleTimeString("en-GB", {
@@ -102,9 +120,13 @@ function Flight({ flight, navigate }) {
             aria-controls="fare-options"
           >
             {showOptions ? (
-              <span className="text-blue-600 ">▲ Hide options</span>
+              <span className="text-blue-600 ">
+                <span aria-hidden="true">▲</span> Seçenekleri gizle
+              </span>
             ) : (
-              <span className="text-blue-600">▼ Show options</span>
+              <span className="text-blue-600">
+                <span aria-hidden="true">▼</span> Seçenekleri göster
+              </span>
             )}
           </button>
         </div>
@@ -174,8 +196,12 @@ function FareCard({ onClick, type, packageOption, price, badge }) {
         ))}
       </ul>
       <div className="flex items-end">
-        <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
-          {price} TRY
+        <button
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          aria-label={`${type} seçeneği için ödeme yapı ${price} Türk Lirası`}
+          onClick={onClick}
+        >
+          {price} Türk Lirası
         </button>
       </div>
     </div>
@@ -184,52 +210,84 @@ function FareCard({ onClick, type, packageOption, price, badge }) {
 
 function FlightInfo({ from, to, departure, passengers }) {
   return (
-    <div className="min-w-60 border rounded-xl h-[60vh] w-[17vw] flex flex-col justify-between">
+    <section
+      className="min-w-60 border rounded-xl h-[60vh] w-[17vw] flex flex-col justify-between"
+      aria-label="Uçuş Bilgisi Kartı"
+      lang="tr"
+    >
       <div className="flex justify-center">
         <img
           className="h-16 w-full rounded-t-xl"
           src={GoodFlightLogoHeader}
-          alt="logo"
+          alt="Good Flight Logo"
         />
       </div>
-      <div className="flex-1 grid grid-cols-3 px-10">
+
+      <div
+        className="flex-1 grid grid-cols-3 px-10"
+        role="group"
+        aria-label="Kalkış ve varış noktaları"
+      >
         <div className="items-center justify-center flex flex-col text-center">
-          <div className="rounded-lg w-auto flex flex-col items-center justify-center">
-            <div className="h-[3em] w-[3em] bg-gray-300 rounded-md flex items-center justify-center text-2xl mb-2">
+          <div
+            className="rounded-lg w-auto flex flex-col items-center justify-center"
+            aria-label={`Kalkış noktası: ${getAirportName(from)} havalimanı`}
+          >
+            <div
+              className="h-[3em] w-[3em] bg-gray-300 rounded-md flex items-center justify-center text-2xl mb-2"
+              aria-hidden="true"
+            >
               {from}
             </div>
             <p>{getAirportName(from)}</p>
           </div>
         </div>
-        <div className="flex items-center justify-center">
+
+        <div className="flex items-center justify-center" aria-hidden="true">
           <Plane className="mb-12 w-[4em] opacity-50" />
         </div>
+
         <div className="items-center justify-center flex flex-col text-center">
-          <div className="rounded-lg w-auto flex flex-col items-center justify-center">
-            <div className="h-[3em] w-[3em] bg-gray-300 rounded-md flex items-center justify-center text-2xl mb-2">
+          <div
+            className="rounded-lg w-auto flex flex-col items-center justify-center"
+            aria-label={`Varış noktası: ${getAirportName(to)} havalimanı`}
+          >
+            <div
+              className="h-[3em] w-[3em] bg-gray-300 rounded-md flex items-center justify-center text-2xl mb-2"
+              aria-hidden="true"
+            >
               {to}
             </div>
             <p>{getAirportName(to)}</p>
           </div>
         </div>
       </div>
-      <div className="h-20 bg-gray-200 rounded-b-xl border-t-2 border-dashed border-gray-400">
+
+      <div
+        className="h-20 bg-gray-200 rounded-b-xl border-t-2 border-dashed border-gray-400"
+        role="contentinfo"
+        aria-label="Yolcu ve tarih bilgisi"
+      >
         <div className="flex items-center justify-between h-full px-6">
-          <p className=" text-lg font-bold flex items-center gap-2">
-            <span>
-              <Users />
-            </span>
-            {passengers}
+          <p
+            className="text-lg font-bold flex items-center gap-2"
+            aria-label={`Yolcu sayısı: ${passengers}`}
+          >
+            <Users aria-hidden="true" />
+            {passengers} Yolcu
           </p>
-          <p className=" text-lg font-bold flex items-center gap-2">
-            <span>
-              <Calendar />
-            </span>
+          <p
+            className="text-lg font-bold flex items-center gap-2"
+            aria-label={`Tarih: ${new Date(departure).toLocaleDateString(
+              "tr-TR"
+            )}`}
+          >
+            <Calendar aria-hidden="true" />
             {new Date(departure).toLocaleDateString("tr-TR")}
           </p>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
