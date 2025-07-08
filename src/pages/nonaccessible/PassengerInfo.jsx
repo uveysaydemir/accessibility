@@ -24,7 +24,7 @@ export default function PassengerInfo() {
       : null;
   useEffect(() => {
     console.log(getFlight(flightId));
-  }, []);
+  }, [flightId]);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <div className="flex justify-center mt-4 gap-8">

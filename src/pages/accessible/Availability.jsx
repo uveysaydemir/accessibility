@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAirport, searchFlight } from "../../utils";
 import GoodFlightLogoHeader from "../../assets/GoodFlightLogoHeader.png";
@@ -16,7 +16,7 @@ export default function Availibility() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchFlights = async () => {
+  const fetchFlights = useCallback(async () => {
     try {
       const response = searchFlight(from, to, departure);
       setFlights(response);
@@ -26,10 +26,14 @@ export default function Availibility() {
       setError("Failed to fetch flights");
       setLoading(false);
     }
-  };
+  }, [from, to, departure]);
+
   useEffect(() => {
     fetchFlights();
-  }, [from, to, departure]);
+    if (error) {
+      console.error("Error fetching flights:", error);
+    }
+  }, [fetchFlights, error]);
   return (
     <div className="grid grid-cols-4 gap-6 px-6 py-4">
       <div className=" col-span-1">
