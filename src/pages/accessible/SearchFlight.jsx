@@ -11,7 +11,7 @@ const SearchFlight = () => {
   const [departureDate, setDepartureDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-  const [returnDate, setReturnDate] = useState();
+  const [returnDate] = useState();
   const [passengers, setPassengers] = useState("1");
   // New state for From and To input values
   const [from, setFrom] = useState("");
