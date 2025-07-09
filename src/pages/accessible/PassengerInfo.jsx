@@ -30,6 +30,7 @@ export default function PassengerInfo() {
       className="flex flex-col items-center justify-center min-h-screen p-4"
       lang="tr"
     >
+      <h1 className="sr-only">Ödeme sayfası</h1>
       <div className="flex justify-center mt-4 gap-8">
         <FlightInfo
           from={from}
@@ -60,9 +61,9 @@ function FlightInfo({
       className="w-[20vw] border rounded-xl h-[60vh]  flex flex-col justify-between"
       aria-labelledby="flight-info-heading"
     >
-      <h1 id="flight-info-heading" className="sr-only">
+      <h2 id="flight-info-heading" className="sr-only">
         Uçuş Bilgisi Kartı
-      </h1>
+      </h2>
       <div className="flex justify-center">
         <img
           className="h-16 w-full rounded-t-xl"
@@ -205,6 +206,21 @@ function PaymentForm({ price }) {
       e.preventDefault();
     }
   };
+
+  const blockNonAlphabetic = (e) => {
+    const allowed = [
+      "Backspace",
+      "Delete",
+      "ArrowLeft",
+      "ArrowRight",
+      "Tab",
+      " ",
+    ];
+    if (!/^[a-zA-ZğüşöçİĞÜŞÖÇ\s]$/.test(e.key) && !allowed.includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <section
       className="border rounded-xl h-[60vh] w-[20vw] flex flex-col justify-between p-6 bg-white shadow-md"
@@ -277,6 +293,7 @@ function PaymentForm({ price }) {
             type="text"
             className="w-full border border-gray-300 rounded px-3 py-2"
             autoComplete="off"
+            onKeyDown={blockNonAlphabetic}
           />
           <p
             id="nameOnCard-hint"

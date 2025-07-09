@@ -75,15 +75,15 @@ function Flight({ flight, navigate }) {
       lang="tr"
     >
       <h2 id={`flight-${flight.id}-heading`} className="sr-only">
-        {`Uçuş Bilgisi: ${getAirport(fromLoc).name} - ${
-          getAirport(toLoc).name
-        }, Kalkış: ${departureTime.toLocaleTimeString("tr-TR", {
+        {`Uçuş Bilgisi: Kalkış: ${departureTime.toLocaleTimeString("tr-TR", {
           hour: "2-digit",
           minute: "2-digit",
-        })} - Varış: ${arrivalTime.toLocaleTimeString("tr-TR", {
+        })} ${
+          getAirport(fromLoc).name
+        } - Varış: ${arrivalTime.toLocaleTimeString("tr-TR", {
           hour: "2-digit",
           minute: "2-digit",
-        })}, Süre: ${duration.hours} saat ${
+        })} ${getAirport(toLoc).name},  Süre: ${duration.hours} saat ${
           duration.minutes
         } dakika, Fiyat: ${price} Türk Lirası`}
       </h2>
@@ -243,7 +243,7 @@ function FlightInfo({ from, to, departure, passengers }) {
         <div className="items-center justify-center flex flex-col text-center">
           <div
             className="rounded-lg w-auto flex flex-col items-center justify-center"
-            aria-label={`Kalkış noktası: ${getAirportName(from)} havalimanı`}
+            aria-label={`Kalkış: ${getAirportName(from)} havalimanı`}
           >
             <div
               className="h-[3em] w-[3em] bg-gray-300 rounded-md flex items-center justify-center text-2xl mb-2"
@@ -262,7 +262,7 @@ function FlightInfo({ from, to, departure, passengers }) {
         <div className="items-center justify-center flex flex-col text-center">
           <div
             className="rounded-lg w-auto flex flex-col items-center justify-center"
-            aria-label={`Varış noktası: ${getAirportName(to)} havalimanı`}
+            aria-label={`Varış: ${getAirportName(to)} havalimanı`}
           >
             <div
               className="h-[3em] w-[3em] bg-gray-300 rounded-md flex items-center justify-center text-2xl mb-2"
