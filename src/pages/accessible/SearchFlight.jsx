@@ -194,6 +194,8 @@ const InputArea = React.forwardRef(
   ) => {
     const [internalValue, setInternalValue] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
+    const [highlightedIndex, setHighlightedIndex] = useState(0);
+    const listRef = useRef(null);
 
     // Use controlled value if provided, otherwise use internal state
     const inputValue = typeof value === "string" ? value : internalValue;
@@ -203,11 +205,11 @@ const InputArea = React.forwardRef(
     const filteredOptions =
       type === "text" && inputValue
         ? data?.filter((item) => {
-            const q = inputValue.toLowerCase();
+            const q = inputValue.toLocaleLowerCase("tr");
             return (
-              item.city.toLowerCase().includes(q) ||
-              item.name.toLowerCase().includes(q) ||
-              item.code.toLowerCase().includes(q)
+              item.city.toLocaleLowerCase("tr").includes(q) ||
+              item.name.toLocaleLowerCase("tr").includes(q) ||
+              item.code.toLocaleLowerCase("tr").includes(q)
             );
           })
         : [];
@@ -228,47 +230,108 @@ const InputArea = React.forwardRef(
               setInputValue(e.target.value);
               setShowDropdown(true);
             }}
-            onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
+            onBlur={(e) => {
+              setTimeout(() => {
+                if (!listRef.current?.contains(document.activeElement)) {
+                  setShowDropdown(false);
+                }
+              }, 100);
+            }}
             min={
-              type === "date"
-                ? new Date().toISOString().split("T")[0]
-                : label === "Passengers"
+              label === "Yolcu Sayısı"
                 ? 1
+                : type === "date"
+                ? new Date().toISOString().split("T")[0]
                 : undefined
             }
+            onInput={(e) => {
+              if (label === "Yolcu Sayısı" && parseInt(e.target.value) < 1) {
+                e.target.value = 1;
+                setInputValue("1");
+              }
+            }}
             autoComplete="off"
             ref={ref}
             aria-invalid={error ? "true" : undefined}
             aria-describedby={errorId}
+            aria-controls="airport-list"
             lang="tr"
+            onKeyDown={(e) => {
+              if (filteredOptions.length === 0) return;
+
+              if (e.key === "ArrowDown") {
+                e.preventDefault();
+                setShowDropdown(true);
+                setHighlightedIndex(
+                  (prev) => (prev + 1) % filteredOptions.length
+                );
+              } else if (e.key === "ArrowUp") {
+                e.preventDefault();
+                setShowDropdown(true);
+                setHighlightedIndex((prev) =>
+                  prev === 0 ? filteredOptions.length - 1 : prev - 1
+                );
+              } else if (e.key === "Enter" && showDropdown) {
+                e.preventDefault();
+                const selectedItem = filteredOptions[highlightedIndex];
+                if (selectedItem) {
+                  setInputValue(
+                    `${selectedItem.name}, ${selectedItem.city}, ${selectedItem.code}`
+                  );
+                  setShowDropdown(false);
+                  if (typeof clearError === "function") clearError();
+                }
+              }
+            }}
           />
           {showDropdown && filteredOptions.length > 0 && (
-            <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-md mt-1 max-h-48 overflow-y-auto">
+            <ul
+              ref={listRef}
+              role="listbox"
+              aria-activedescendant={`option-${highlightedIndex}`}
+              className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-md mt-1 max-h-48 overflow-y-auto"
+              id="airport-list"
+              tabIndex="0"
+            >
               {filteredOptions.map((item, index) => (
                 <li
                   key={index}
-                  className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                  id={`option-${index}`}
+                  role="option"
+                  aria-selected={highlightedIndex === index}
+                  className={`px-3 py-2 cursor-pointer text-sm ${
+                    highlightedIndex === index
+                      ? "bg-blue-100"
+                      : "hover:bg-gray-100"
+                  }`}
                   onMouseDown={() => {
-                    setInputValue(
-                      `${item.city}, ${item.country}, ${item.code}`
-                    );
+                    setInputValue(`${item.name}, ${item.city}, ${item.code}`);
                     setShowDropdown(false);
-                    if (typeof clearError === "function") {
-                      clearError();
-                    }
+                    if (typeof clearError === "function") clearError();
                   }}
-                  aria-label={`${item.city}, ${item.country}, ${item.code}`}
+                  aria-label={`${item.name}, ${item.city}, ${item.code}`}
                   lang="tr"
+                  tabIndex={-1}
                 >
-                  {item.city}, {item.country}, {item.code}
+                  {item.name}, {item.city}, {item.code}
                 </li>
               ))}
             </ul>
           )}
         </div>
         {error && (
-          <p id={errorId} className="text-sm text-red-500 mt-1">
-            Lütfen gerekli alanı doldurun
+          <p
+            id={errorId}
+            className="text-sm text-red-500 mt-1"
+            aria-live="polite"
+          >
+            {label === "Kalkış"
+              ? "Lütfen kalkış noktasını giriniz"
+              : label === "Varış"
+              ? "Lütfen varış noktasını giriniz"
+              : label === "Tarih"
+              ? "Lütfen kalkış tarihini giriniz"
+              : "Lütfen gerekli alanı doldurun"}
           </p>
         )}
       </div>

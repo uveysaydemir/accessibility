@@ -17,9 +17,10 @@ export default function Logo({ variant }) {
       : "/nonaccessible/SearchFlight";
 
   return (
-    <div className="w-[30vw] mx-[2vw]">
-      <a href={link}>
+    <div className="w-[30vw] mx-[2vw]" aria-hidden="true">
+      <a href={link} aria-hidden="true">
         <img
+          aria-hidden="true"
           src={src}
           alt={alt}
           className={`w-full h-auto rounded-lg block ${boxShadow}`}
