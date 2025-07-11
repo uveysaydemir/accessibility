@@ -215,11 +215,11 @@ const InputArea = React.forwardRef(
         : [];
     const errorId = error ? `${label}-error` : undefined;
     return (
-      <div className="flex flex-col rounded-lg p-2 relative">
+      <div className="flex flex-col rounded-lg p-2">
         <label htmlFor={label} className="text-gray-600 text-sm">
           {label}
         </label>
-        <div>
+        <div className="relative">
           <input
             id={label}
             placeholder={placeholder}
@@ -254,8 +254,14 @@ const InputArea = React.forwardRef(
             ref={ref}
             aria-invalid={error ? "true" : undefined}
             aria-describedby={errorId}
-            aria-controls="airport-list"
             lang="tr"
+            role="combobox"
+            aria-haspopup="listbox"
+            aria-expanded={showDropdown}
+            aria-controls="airport-list"
+            aria-activedescendant={
+              showDropdown ? `option-${highlightedIndex}` : undefined
+            }
             onKeyDown={(e) => {
               if (filteredOptions.length === 0) return;
 
@@ -288,8 +294,7 @@ const InputArea = React.forwardRef(
             <ul
               ref={listRef}
               role="listbox"
-              aria-activedescendant={`option-${highlightedIndex}`}
-              className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-md mt-1 max-h-48 overflow-y-auto"
+              className="absolute left-0 right-0 top-full bg-white border border-gray-200 rounded-md shadow-md mt-1 max-h-48 overflow-y-auto z-10"
               id="airport-list"
               tabIndex="0"
             >

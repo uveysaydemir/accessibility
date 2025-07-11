@@ -13,10 +13,10 @@ export default function WelcomePage() {
       </div>
 
       <div className="flex flex-9 justify-center p-5 h-[90vh]">
-        <div aria-label="Good Flight'a erişmek için tıklayın">
+        <div>
           <Logo variant={LogoVariant.GOOD} />
         </div>
-        <div aria-label="Bad Flight'a erişmek için tıklayın">
+        <div>
           <Logo variant={LogoVariant.BAD} />
         </div>
       </div>
