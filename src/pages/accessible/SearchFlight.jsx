@@ -128,7 +128,7 @@ const SearchFlight = () => {
             <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg">
               <div className="flex items-center space-x-2" lang="tr">
                 <Calendar className="text-gray-500" />
-                <InputArea
+                <DateInputArea
                   label={Labels.DEPARTURE}
                   placeholder="Select"
                   type="date"
@@ -337,6 +337,56 @@ const InputArea = React.forwardRef(
               : label === "Tarih"
               ? "Lütfen kalkış tarihini giriniz"
               : "Lütfen gerekli alanı doldurun"}
+          </p>
+        )}
+      </div>
+    );
+  }
+);
+const DateInputArea = React.forwardRef(
+  ({ label, placeholder, value, setValue, error }, ref) => {
+    const [internalValue, setInternalValue] = useState("");
+
+    // Use controlled value if provided, otherwise use internal state
+    const inputValue = typeof value === "string" ? value : internalValue;
+    const setInputValue =
+      typeof setValue === "function" ? setValue : setInternalValue;
+
+    const errorId = error ? `${label}-error` : undefined;
+    return (
+      <div className="flex flex-col rounded-lg p-2">
+        <label htmlFor={label} className="text-gray-600 text-sm">
+          {label}
+        </label>
+        <div className="relative">
+          <input
+            id={label}
+            placeholder={placeholder}
+            className="rounded-md p-2 w-full"
+            type="date"
+            readOnly
+            aria-label={`Seçilen tarih: ${new Date(
+              inputValue
+            ).toLocaleDateString("tr-TR")}. Tarihi değiştirmek için tıklayınız`}
+            value={inputValue}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+            }}
+            min={new Date().toISOString().split("T")[0]}
+            autoComplete="off"
+            ref={ref}
+            aria-invalid={error ? "true" : undefined}
+            aria-describedby={errorId}
+            lang="tr"
+          />
+        </div>
+        {error && (
+          <p
+            id={errorId}
+            className="text-sm text-red-500 mt-1"
+            aria-live="polite"
+          >
+            Lütfen kalkış tarihini giriniz
           </p>
         )}
       </div>
