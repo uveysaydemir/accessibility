@@ -22,7 +22,7 @@ export default function Logo({ variant }) {
       : "Bad Flight'a erişmek için tıklayın";
 
   return (
-    <div className="w-[30vw] mx-[2vw]">
+    <div className="w-full sm:w-[48vw] max-w-md mx-auto sm:mx-[2vw]">
       <a href={link} aria-label={ariaLabel}>
         <img
           src={src}

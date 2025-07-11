@@ -56,7 +56,7 @@ const SearchFlight = () => {
   };
 
   return (
-    <div className="bg-[#effff0] min-h-screen flex flex-col items-center">
+    <div className="bg-[#effff0] min-h-screen flex flex-col items-center px-4 sm:px-6 lg:px-8">
       <div className="w-full h-[400px]">
         <img
           className=" w-full h-[40vh] rounded-xl"
@@ -65,7 +65,7 @@ const SearchFlight = () => {
         />
       </div>
       <div className="relative z-10 -mt-20 px-5">
-        <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-screen-xl mx-auto">
+        <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-screen-xl mx-auto">
           <h1 className="text-xl font-semibold mb-6">
             Erişilebilir Uçuş Arama
           </h1>
@@ -85,7 +85,7 @@ const SearchFlight = () => {
           </div>
 
           {/* Input Fields */}
-          <div className="grid grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* From */}
             <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg">
               <div className="flex items-center space-x-2">

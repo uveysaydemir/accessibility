@@ -35,8 +35,8 @@ export default function Availibility() {
     }
   }, [fetchFlights, error]);
   return (
-    <div className="grid grid-cols-4 gap-6 px-6 py-4">
-      <div className=" col-span-1">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4 sm:px-6 py-4">
+      <div className="col-span-full md:col-span-1 ">
         <FlightInfo
           from={from}
           to={to}
@@ -45,7 +45,7 @@ export default function Availibility() {
           navigate={navigate}
         />
       </div>
-      <div className="col-span-3 p-4 h-fit space-y-4">
+      <div className="col-span-full md:col-span-3 p-4 h-fit space-y-4 flex-basis-[100%]">
         {!loading &&
           flights.map((flight) => (
             <Flight key={flight.id} flight={flight} navigate={navigate} />
@@ -168,7 +168,6 @@ function Flight({ flight, navigate }) {
           />
           <FareCard
             type="PREMIUM"
-            badge="En Popüler"
             packageOption={`25 kg bagaj hakkı
 Premium koltuk seçimi
 Esnek İade ve Değişiklik`}
@@ -192,11 +191,6 @@ function FareCard({ onClick, type, packageOption, price, badge }) {
       onClick={onClick}
       className="border rounded-md p-4 shadow bg-gray-50 relative h-full flex flex-col justify-between"
     >
-      {badge && (
-        <div className="absolute top-2 right-2 bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded">
-          {badge}
-        </div>
-      )}
       <h3 className="text-lg font-bold mb-2">{type}</h3>
       <ul className="text-sm text-gray-700 mb-4 list-disc pl-4">
         {packageOption.split("\n").map((option, index) => (
@@ -219,7 +213,7 @@ function FareCard({ onClick, type, packageOption, price, badge }) {
 function FlightInfo({ from, to, departure, passengers }) {
   return (
     <section
-      className="min-w-60 border rounded-xl h-[60vh] w-[17vw] flex flex-col justify-between"
+      className="border rounded-xl min-h-[60vh] min-w-[17vw] w-full md:w-[17vw] flex flex-col justify-between"
       aria-labelledby="flight-info-heading"
       lang="tr"
     >
