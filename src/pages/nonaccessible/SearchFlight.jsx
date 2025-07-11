@@ -1,6 +1,6 @@
 //ACCESSIBLE
 import { Calendar, PlaneLanding, PlaneTakeoff, User } from "lucide-react";
-import { useState } from "react";
+import React, { useState, useRef } from "react";
 import HeaderLogo from "../../assets/BadFlightLogoHeader.png";
 import { useNavigate } from "react-router-dom";
 import airports from "../../data/airports";
@@ -11,15 +11,19 @@ const SearchFlight = () => {
   const [departureDate, setDepartureDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-  const [returnDate, setReturnDate] = useState();
+  const [returnDate] = useState();
   const [passengers, setPassengers] = useState("1");
-  // New state for From and To input values
+
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  // New state for search results
+
   const [errors, setErrors] = useState({});
 
-  // Handler for searching flights
+  const fromRef = useRef(null);
+  const toRef = useRef(null);
+  const departureRef = useRef(null);
+  const returnRef = useRef(null);
+
   const handleSearch = () => {
     const newErrors = {};
     if (!from) newErrors.from = "Required input field";
@@ -29,44 +33,66 @@ const SearchFlight = () => {
       newErrors.returnDate = "Required input field";
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      if (newErrors.from && fromRef.current) {
+        fromRef.current.focus();
+      } else if (newErrors.to && toRef.current) {
+        toRef.current.focus();
+      } else if (newErrors.departureDate && departureRef.current) {
+        departureRef.current.focus();
+      } else if (newErrors.returnDate && returnRef.current) {
+        returnRef.current.focus();
+      }
       return false;
     }
     return true;
   };
 
+  const clearFieldError = (field) => {
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      delete newErrors[field];
+      return newErrors;
+    });
+  };
+
   return (
-    <div className="bg-[#ffefef] min-h-screen flex flex-col items-center">
-      <div className="w-full h-[400px]">
-        <img
-          className=" w-full h-[40vh] rounded-xl"
-          src={HeaderLogo}
-          alt="Bad Flight Logo"
-        />
+    <div className="bg-[#d58585] min-h-screen flex flex-col items-center px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+      <div className="w-full h-[70vh]">
+        <img className=" w-full h-[70vh] rounded-xl" src={HeaderLogo} alt="" />
       </div>
-      <div className="relative z-10 -mt-20 px-5">
-        <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-screen-xl mx-auto">
-          <h1 className="text-xl font-semibold mb-6 text-red-600">
-            Non Accessible Search Flight TODO: CHECK GITHUB ISSUE
+      <div className="relative z-10 -mt-[10vh] px-5 w-full max-w-[90%] mx-auto">
+        <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-[90%] mx-auto">
+          <h1 className="text-xl font-semibold mb-6">
+            Erişilebilir Olmayan Uçuş Arama
           </h1>
           {/* Trip Type Selection */}
           <div className="flex space-x-6 mb-6">
-            <label className="flex items-center space-x-2 text-gray-700">
-              <input
-                type="radio"
-                name="tripType"
-                value="one-way"
-                checked={tripType === "one-way"}
-                onChange={() => setTripType("one-way")}
-                className="accent-blue-600"
-              />
-              <span>Tek Yön</span>
-            </label>
+            <input
+              type="radio"
+              name="tripType"
+              value="one-way"
+              checked={tripType === "one-way"}
+              onChange={() => setTripType("one-way")}
+              className="accent-blue-600"
+              tabIndex={-1}
+            />
+            <span aria-hidden="true">Tek Yön</span>
+            <input
+              type="radio"
+              name="tripType"
+              value="round-trip"
+              checked={tripType === "round-trip"}
+              onChange={() => setTripType("round-trip")}
+              className="accent-blue-600"
+              tabIndex={-1}
+            />
+            <span aria-hidden="true">Gidiş Dönüş</span>
           </div>
 
           {/* Input Fields */}
-          <div className="grid grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* From */}
-            <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg">
+            <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg w-full col-span-full sm:col-span-1 lg:col-span-1">
               <div className="flex items-center space-x-2">
                 <PlaneTakeoff className="text-gray-500" />
                 <InputArea
@@ -76,12 +102,14 @@ const SearchFlight = () => {
                   value={from}
                   setValue={setFrom}
                   error={errors.from}
+                  ref={fromRef}
+                  clearError={() => clearFieldError("from")}
                 />
               </div>
             </div>
 
             {/* To */}
-            <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg">
+            <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg w-full col-span-full sm:col-span-1 lg:col-span-1">
               <div className="flex items-center space-x-2">
                 <PlaneLanding className="text-gray-500" />
                 <InputArea
@@ -91,18 +119,19 @@ const SearchFlight = () => {
                   value={to}
                   setValue={setTo}
                   error={errors.to}
+                  ref={toRef}
+                  clearError={() => clearFieldError("to")}
                 />
               </div>
             </div>
 
-            {/* Departure */}
-            <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg">
-              <div className="flex items-center space-x-2">
+            {/* Departure Date */}
+            <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg w-full col-span-full sm:col-span-1 lg:col-span-1">
+              <div className="flex items-center space-x-2" lang="tr">
                 <Calendar className="text-gray-500" />
-                <InputArea
+                <DateInputArea
                   label={Labels.DEPARTURE}
                   placeholder="Select"
-                  type="date"
                   value={
                     departureDate
                       ? departureDate
@@ -110,32 +139,16 @@ const SearchFlight = () => {
                   }
                   setValue={setDepartureDate}
                   error={errors.departureDate}
+                  ref={departureRef}
+                  clearError={() => clearFieldError("departureDate")}
                 />
               </div>
             </div>
-
-            {/* Return */}
-            {tripType === "round-trip" ? (
-              <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg">
-                <div className="flex items-center space-x-2">
-                  <Calendar className="text-gray-500" />
-                  <InputArea
-                    label={Labels.RETURN}
-                    placeholder="Please Select"
-                    type="date"
-                    value={returnDate}
-                    data={airports}
-                    setValue={setReturnDate}
-                    error={errors.returnDate}
-                  />
-                </div>
-              </div>
-            ) : (
-              <div />
-            )}
-
             {/* Passengers */}
-            <div className="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg">
+            <div
+              className="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg w-full col-span-full sm:col-span-1 lg:col-span-1"
+              lang="tr"
+            >
               <User className="text-gray-500" />
               <InputArea
                 label={Labels.PASSENGERS}
@@ -150,7 +163,7 @@ const SearchFlight = () => {
 
           <div className="flex justify-end mt-6">
             <button
-              className="bg-blue-500 text-white rounded-lg px-6 py-2 hover:bg-blue-600"
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-6 py-2 "
               onClick={() => {
                 if (!handleSearch()) return;
                 navigate(
@@ -173,79 +186,121 @@ const SearchFlight = () => {
 
 export default SearchFlight;
 
-const InputArea = ({
-  label,
-  placeholder,
-  type,
-  data = [],
-  value,
-  setValue,
-  error,
-}) => {
-  const [internalValue, setInternalValue] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
+const InputArea = React.forwardRef(
+  (
+    { label, placeholder, type, data = [], value, setValue, error, clearError },
+    ref
+  ) => {
+    const [internalValue, setInternalValue] = useState("");
+    const [showDropdown, setShowDropdown] = useState(false);
+    const listRef = useRef(null);
+    const inputValue = typeof value === "string" ? value : internalValue;
+    const setInputValue =
+      typeof setValue === "function" ? setValue : setInternalValue;
 
-  // Use controlled value if provided, otherwise use internal state
-  const inputValue = typeof value === "string" ? value : internalValue;
-  const setInputValue =
-    typeof setValue === "function" ? setValue : setInternalValue;
+    const filteredOptions =
+      type === "text" && inputValue
+        ? data?.filter((item) => {
+            const q = inputValue.toLocaleLowerCase("tr");
+            return (
+              item.city.toLocaleLowerCase("tr").includes(q) ||
+              item.name.toLocaleLowerCase("tr").includes(q) ||
+              item.code.toLocaleLowerCase("tr").includes(q)
+            );
+          })
+        : [];
 
-  const filteredOptions =
-    type === "text" && inputValue
-      ? data?.filter((item) => {
-          const q = inputValue.toLowerCase();
-          return (
-            item.city.toLowerCase().includes(q) ||
-            item.name.toLowerCase().includes(q) ||
-            item.code.toLowerCase().includes(q)
-          );
-        })
-      : [];
-  return (
-    <div className="flex flex-col rounded-lg p-2 relative">
-      <label htmlFor={label} className="text-gray-600 text-sm">
-        {label}
-      </label>
-      <div>
-        <input
-          id={label}
-          placeholder={placeholder}
-          className="rounded-md p-2 w-full"
-          type={type}
-          value={inputValue}
-          onChange={(e) => {
-            setInputValue(e.target.value);
-            setShowDropdown(true);
-          }}
-          onBlur={() => setTimeout(() => setShowDropdown(false), 100)}
-          min={label === "Passengers" ? 1 : ""}
-          autoComplete="off"
-        />
-        {showDropdown && filteredOptions.length > 0 && (
-          <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-md mt-1 max-h-48 overflow-y-auto">
-            {filteredOptions.map((item, index) => (
-              <li
-                key={index}
-                className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-                onMouseDown={() => {
-                  setInputValue(`${item.city}, ${item.country}, ${item.code}`);
+    return (
+      <div className="flex flex-col rounded-lg p-2 w-full">
+        <div className="text-gray-600 text-sm">{label}</div>
+        <div className="relative">
+          <input
+            placeholder={placeholder}
+            className="rounded-md p-2 w-full"
+            type={type}
+            value={inputValue}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+              setShowDropdown(true);
+            }}
+            onBlur={(e) => {
+              setTimeout(() => {
+                if (!listRef.current?.contains(document.activeElement)) {
                   setShowDropdown(false);
-                }}
-              >
-                {item.city}, {item.country}, {item.code}
-              </li>
-            ))}
-          </ul>
+                }
+              }, 100);
+            }}
+            min={
+              label === "Yolcu Sayısı"
+                ? 1
+                : type === "date"
+                ? new Date().toISOString().split("T")[0]
+                : undefined
+            }
+            onInput={(e) => {
+              if (label === "Yolcu Sayısı" && parseInt(e.target.value) < 1) {
+                e.target.value = 1;
+                setInputValue("1");
+              }
+            }}
+            autoComplete="off"
+            ref={ref}
+          />
+          {showDropdown && filteredOptions.length > 0 && (
+            <ul className="absolute left-0 right-0 top-full bg-white border border-gray-200 rounded-md shadow-md mt-1 max-h-48 overflow-y-auto z-10">
+              {filteredOptions.map((item, index) => (
+                <li
+                  key={index}
+                  className={`px-3 py-2 cursor-pointer text-sm`}
+                  onMouseDown={() => {
+                    setInputValue(`${item.name}, ${item.city}, ${item.code}`);
+                    setShowDropdown(false);
+                    if (typeof clearError === "function") clearError();
+                  }}
+                >
+                  {item.name}, {item.city}, {item.code}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        {error && (
+          <p className="text-sm text-red-500 mt-1">
+            Lütfen gerekli alanı doldurun
+          </p>
         )}
       </div>
-      {error && (
-        <p className="text-sm text-red-500 mt-1">
-          Lütfen gerekli alanı doldurun
-        </p>
-      )}
-    </div>
-  );
-};
+    );
+  }
+);
+const DateInputArea = React.forwardRef(
+  ({ label, placeholder, value, setValue, error }, ref) => {
+    const [internalValue, setInternalValue] = useState("");
+
+    const inputValue = typeof value === "string" ? value : internalValue;
+    const setInputValue =
+      typeof setValue === "function" ? setValue : setInternalValue;
+
+    return (
+      <div className="flex flex-col rounded-lg p-2 w-full">
+        <div className="text-gray-600 text-sm">{label}</div>
+        <div className="relative">
+          <input
+            placeholder={placeholder}
+            className="rounded-md p-2 w-full"
+            type="date"
+            value={inputValue}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+            }}
+            min={new Date().toISOString().split("T")[0]}
+            ref={ref}
+          />
+        </div>
+      </div>
+    );
+  }
+);
 
 const getPortCode = (info) => {
   const portCode = info.split(",")[2];

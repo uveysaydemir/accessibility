@@ -136,7 +136,7 @@ function getAirportName(code) {
 function PaymentForm({ price }) {
   return (
     <div className="min-w-60 border rounded-xl h-[60vh] w-[20vw] flex flex-col justify-between p-6 bg-white shadow-md">
-      <h2 className="text-xl font-bold mb-4 text-center">Ödeme Bilgileri</h2>
+      <div className="text-xl font-bold mb-4 text-center">Ödeme Bilgileri</div>
       <div className="mb-6 text-center">
         <p className="text-lg mb-2">Toplam Tutar</p>
         <p className="font-bold text-lg">{price} TRY</p>
