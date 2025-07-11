@@ -64,8 +64,8 @@ const SearchFlight = () => {
           alt="Good Flight Logo"
         />
       </div>
-      <div className="relative z-10 -mt-20 px-5">
-        <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-screen-xl mx-auto">
+      <div className="relative z-10 -mt-20 px-5 w-full max-w-[90%] mx-auto">
+        <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-[90%] mx-auto">
           <h1 className="text-xl font-semibold mb-6">
             Erişilebilir Uçuş Arama
           </h1>
@@ -85,9 +85,9 @@ const SearchFlight = () => {
           </div>
 
           {/* Input Fields */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* From */}
-            <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg">
+            <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg w-full col-span-full sm:col-span-1 lg:col-span-1">
               <div className="flex items-center space-x-2">
                 <PlaneTakeoff className="text-gray-500" />
                 <InputArea
@@ -104,7 +104,7 @@ const SearchFlight = () => {
             </div>
 
             {/* To */}
-            <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg">
+            <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg w-full col-span-full sm:col-span-1 lg:col-span-1">
               <div className="flex items-center space-x-2">
                 <PlaneLanding className="text-gray-500" />
                 <InputArea
@@ -121,7 +121,7 @@ const SearchFlight = () => {
             </div>
 
             {/* Departure Date */}
-            <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg">
+            <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg w-full col-span-full sm:col-span-1 lg:col-span-1">
               <div className="flex items-center space-x-2" lang="tr">
                 <Calendar className="text-gray-500" />
                 <DateInputArea
@@ -142,7 +142,7 @@ const SearchFlight = () => {
 
             {/* Passengers */}
             <div
-              className="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg"
+              className="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg w-full col-span-full sm:col-span-1 lg:col-span-1"
               lang="tr"
             >
               <User className="text-gray-500" />
@@ -208,7 +208,7 @@ const InputArea = React.forwardRef(
         : [];
     const errorId = error ? `${label}-error` : undefined;
     return (
-      <div className="flex flex-col rounded-lg p-2">
+      <div className="flex flex-col rounded-lg p-2 w-full">
         <label htmlFor={label} className="text-gray-600 text-sm">
           {label}
         </label>
@@ -346,7 +346,7 @@ const DateInputArea = React.forwardRef(
 
     const errorId = error ? `${label}-error` : undefined;
     return (
-      <div className="flex flex-col rounded-lg p-2">
+      <div className="flex flex-col rounded-lg p-2 w-full">
         <label htmlFor={label} className="text-gray-600 text-sm">
           {label}
         </label>
