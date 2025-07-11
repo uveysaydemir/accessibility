@@ -13,19 +13,17 @@ const SearchFlight = () => {
   );
   const [returnDate] = useState();
   const [passengers, setPassengers] = useState("1");
-  // New state for From and To input values
+
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  // New state for search results
+
   const [errors, setErrors] = useState({});
 
-  // Refs for inputs
   const fromRef = useRef(null);
   const toRef = useRef(null);
   const departureRef = useRef(null);
   const returnRef = useRef(null);
 
-  // Handler for searching flights
   const handleSearch = () => {
     const newErrors = {};
     if (!from) newErrors.from = "Required input field";
@@ -35,7 +33,6 @@ const SearchFlight = () => {
       newErrors.returnDate = "Required input field";
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      // Focus first errored field
       if (newErrors.from && fromRef.current) {
         fromRef.current.focus();
       } else if (newErrors.to && toRef.current) {
@@ -50,7 +47,6 @@ const SearchFlight = () => {
     return true;
   };
 
-  // Function to clear a field's error
   const clearFieldError = (field) => {
     setErrors((prevErrors) => {
       const newErrors = { ...prevErrors };
@@ -124,14 +120,13 @@ const SearchFlight = () => {
               </div>
             </div>
 
-            {/* Departure */}
+            {/* Departure Date */}
             <div className="flex flex-col space-y-1 bg-gray-50 p-3 rounded-lg">
               <div className="flex items-center space-x-2" lang="tr">
                 <Calendar className="text-gray-500" />
                 <DateInputArea
                   label={Labels.DEPARTURE}
                   placeholder="Select"
-                  type="date"
                   value={
                     departureDate
                       ? departureDate
@@ -196,8 +191,6 @@ const InputArea = React.forwardRef(
     const [showDropdown, setShowDropdown] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(0);
     const listRef = useRef(null);
-
-    // Use controlled value if provided, otherwise use internal state
     const inputValue = typeof value === "string" ? value : internalValue;
     const setInputValue =
       typeof setValue === "function" ? setValue : setInternalValue;
@@ -347,7 +340,6 @@ const DateInputArea = React.forwardRef(
   ({ label, placeholder, value, setValue, error }, ref) => {
     const [internalValue, setInternalValue] = useState("");
 
-    // Use controlled value if provided, otherwise use internal state
     const inputValue = typeof value === "string" ? value : internalValue;
     const setInputValue =
       typeof setValue === "function" ? setValue : setInternalValue;
@@ -364,10 +356,6 @@ const DateInputArea = React.forwardRef(
             placeholder={placeholder}
             className="rounded-md p-2 w-full"
             type="date"
-            readOnly
-            aria-label={`Seçilen tarih: ${new Date(
-              inputValue
-            ).toLocaleDateString("tr-TR")}. Tarihi değiştirmek için tıklayınız`}
             value={inputValue}
             onChange={(e) => {
               setInputValue(e.target.value);
