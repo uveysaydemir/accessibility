@@ -215,6 +215,78 @@ const mockFlights = [
     flexPrice: 1400 * 1.2,
     premiumPrice: 1400 * 1.5,
   },
+  {
+    id: 13,
+    fromLoc: "IST",
+    toLoc: "ESB",
+    fromDate: new Date().toISOString().split("T")[0],
+    fromTime: new Date(new Date().setHours(8, 10, 0, 0)),
+    duration: {
+      hours: 1,
+      minutes: 10,
+    },
+    returnDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0],
+    returnTime: "10:30",
+    price: 1200,
+    flexPrice: 1200 * 1.2,
+    premiumPrice: 1200 * 1.5,
+  },
+  {
+    id: 14,
+    fromLoc: "IST",
+    toLoc: "ESB",
+    fromDate: new Date().toISOString().split("T")[0],
+    fromTime: new Date(new Date().setHours(12, 45, 0, 0)),
+    duration: {
+      hours: 1,
+      minutes: 10,
+    },
+    returnDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0],
+    returnTime: "10:30",
+    price: 1700,
+    flexPrice: 1700 * 1.2,
+    premiumPrice: 1700 * 1.5,
+  },
+  {
+    id: 15,
+    fromLoc: "SAW",
+    toLoc: "ESB",
+    fromDate: new Date().toISOString().split("T")[0],
+    fromTime: new Date(new Date().setHours(18, 30, 0, 0)),
+    duration: {
+      hours: 1,
+      minutes: 10,
+    },
+    returnDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0],
+    returnTime: "10:30",
+    price: 1200,
+    flexPrice: 1200 * 1.2,
+    premiumPrice: 1200 * 1.5,
+  },
+  {
+    id: 16,
+    fromLoc: "SAW",
+    toLoc: "ESB",
+    fromDate: new Date().toISOString().split("T")[0],
+    fromTime: new Date(new Date().setHours(22, 15, 0, 0)),
+    duration: {
+      hours: 1,
+      minutes: 10,
+    },
+    returnDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0],
+    returnTime: "10:30",
+    price: 800,
+    flexPrice: 800 * 1.2,
+    premiumPrice: 800 * 1.5,
+  },
 ];
 
 export default mockFlights;

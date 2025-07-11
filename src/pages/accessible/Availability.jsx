@@ -35,8 +35,8 @@ export default function Availibility() {
     }
   }, [fetchFlights, error]);
   return (
-    <div className="grid grid-cols-4 gap-6 px-6 py-4">
-      <div className=" col-span-1">
+    <div className="flex max-md:flex-wrap px-6 py-4 gap-6">
+      <div className="max-md:w-full">
         <FlightInfo
           from={from}
           to={to}
@@ -45,7 +45,7 @@ export default function Availibility() {
           navigate={navigate}
         />
       </div>
-      <div className="col-span-3 p-4 h-fit space-y-4">
+      <div className="basis-full py-4 h-fit space-y-4">
         {!loading &&
           flights.map((flight) => (
             <Flight key={flight.id} flight={flight} navigate={navigate} />
@@ -87,7 +87,7 @@ function Flight({ flight, navigate }) {
           duration.minutes
         } dakika, Fiyat: ${price} Türk Lirası`}
       </h2>
-      <div className="flex justify-between items-center">
+      <div className=" flex justify-between items-center">
         <div>
           <p className="text-xl font-semibold" aria-hidden="true">
             {departureTime.toLocaleTimeString("tr-TR", {
@@ -219,7 +219,7 @@ function FareCard({ onClick, type, packageOption, price, badge }) {
 function FlightInfo({ from, to, departure, passengers }) {
   return (
     <section
-      className="min-w-60 border rounded-xl h-[60vh] w-[17vw] flex flex-col justify-between"
+      className="w-full md:min-w-[24rem] border rounded-xl h-[60vh] md:w-[17vw] flex flex-col justify-between"
       aria-labelledby="flight-info-heading"
       lang="tr"
     >

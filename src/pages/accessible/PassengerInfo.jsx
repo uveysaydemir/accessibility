@@ -31,7 +31,7 @@ export default function PassengerInfo() {
       lang="tr"
     >
       <h1 className="sr-only">Ödeme sayfası</h1>
-      <div className="flex justify-center mt-4 gap-8">
+      <div className="flex flex-col lg:flex-row justify-center mt-4 gap-6 w-full px-4 max-w-screen-xl">
         <FlightInfo
           from={from}
           to={to}
@@ -58,7 +58,7 @@ function FlightInfo({
 }) {
   return (
     <section
-      className="w-[20vw] border rounded-xl h-[60vh]  flex flex-col justify-between"
+      className="w-full lg:w-[45%] border rounded-xl min-h-[60vh] flex flex-col justify-between"
       aria-labelledby="flight-info-heading"
     >
       <h2 id="flight-info-heading" className="sr-only">
@@ -74,7 +74,7 @@ function FlightInfo({
       </div>
       <div className="">
         <div
-          className="flex-1 grid grid-cols-3 px-10 mb-4"
+          className="flex flex-wrap justify-center gap-y-6 gap-x-4 px-6 sm:px-10 mb-4"
           aria-label={`Kalkış noktası: ${getAirportName(
             from
           )} havalimanı, Varış noktası: ${getAirportName(
@@ -95,7 +95,7 @@ function FlightInfo({
         })},
         Uçuş süresi: ${duration.hours} saat ${duration.minutes} dakika`}
         >
-          <div className="items-center justify-center flex flex-col text-center">
+          <div className="flex flex-col items-center justify-center text-center space-y-2 flex-1 min-w-[120px]">
             <div className="rounded-lg w-auto flex flex-col items-center justify-center">
               <div
                 className="h-[3em] w-[3em] bg-gray-300 rounded-md flex items-center justify-center text-2xl mb-2"
@@ -120,7 +120,7 @@ function FlightInfo({
               </p>
             </div>
           </div>
-          <div className="items-center justify-center flex flex-col text-center">
+          <div className="flex flex-col items-center justify-center text-center space-y-2 flex-1 min-w-[120px]">
             <div className="rounded-lg w-auto flex flex-col items-center justify-center">
               <div
                 className="h-[3em] w-[3em] bg-gray-300 rounded-md flex items-center justify-center text-2xl mb-2"
@@ -223,7 +223,7 @@ function PaymentForm({ price }) {
 
   return (
     <section
-      className="border rounded-xl h-[60vh] w-[20vw] flex flex-col justify-between p-6 bg-white shadow-md"
+      className="border rounded-xl w-full lg:w-[45%] flex flex-col justify-between p-6 bg-white shadow-md min-h-[60vh]"
       aria-labelledby="payment-form-heading"
     >
       <h2
