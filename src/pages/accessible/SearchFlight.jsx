@@ -56,15 +56,15 @@ const SearchFlight = () => {
   };
 
   return (
-    <div className="bg-[#effff0] min-h-screen flex flex-col items-center px-4 sm:px-6 lg:px-8">
-      <div className="w-full h-[400px]">
+    <div className="bg-[#effff0] min-h-screen flex flex-col items-center px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+      <div className="w-full h-[70vh]">
         <img
-          className=" w-full h-[40vh] rounded-xl"
+          className=" w-full h-[70vh] rounded-xl"
           src={HeaderLogo}
           alt="Good Flight Logo"
         />
       </div>
-      <div className="relative z-10 -mt-20 px-5 w-full max-w-[90%] mx-auto">
+      <div className="relative z-10 -mt-[10vh] px-5 w-full max-w-[90%] mx-auto">
         <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-[90%] mx-auto">
           <h1 className="text-xl font-semibold mb-6">
             Erişilebilir Uçuş Arama
@@ -81,6 +81,17 @@ const SearchFlight = () => {
                 className="accent-blue-600"
               />
               <span>Tek Yön</span>
+            </label>
+            <label className="flex items-center space-x-2 text-gray-700">
+              <input
+                type="radio"
+                name="tripType"
+                value="round-trip"
+                checked={tripType === "round-trip"}
+                onChange={() => setTripType("round-trip")}
+                className="accent-blue-600"
+              />
+              <span>Gidiş Dönüş</span>
             </label>
           </div>
 
@@ -139,7 +150,6 @@ const SearchFlight = () => {
                 />
               </div>
             </div>
-
             {/* Passengers */}
             <div
               className="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg w-full col-span-full sm:col-span-1 lg:col-span-1"
@@ -159,7 +169,7 @@ const SearchFlight = () => {
 
           <div className="flex justify-end mt-6">
             <button
-              className="bg-blue-500 text-white rounded-lg px-6 py-2 hover:bg-blue-600"
+              className="bg-[#0076D6] hover:bg-[#005AA4] text-white rounded-lg px-6 py-2 "
               onClick={() => {
                 if (!handleSearch()) return;
                 navigate(
