@@ -1,7 +1,7 @@
 //ACCESSIBLE
 import { Calendar, PlaneLanding, PlaneTakeoff, User } from "lucide-react";
 import React, { useState, useRef } from "react";
-import HeaderLogo from "../../assets/GoodFlightLogoHeader.png";
+import HeaderLogo from "../../assets/GoodHeader.png";
 import { useNavigate } from "react-router-dom";
 import airports from "../../data/airports";
 
@@ -22,7 +22,7 @@ const SearchFlight = () => {
   const fromRef = useRef(null);
   const toRef = useRef(null);
   const departureRef = useRef(null);
-  const returnRef = useRef(null);
+  const passengerRef = useRef(null);
 
   const handleSearch = () => {
     const newErrors = {};
@@ -39,8 +39,6 @@ const SearchFlight = () => {
         toRef.current.focus();
       } else if (newErrors.departureDate && departureRef.current) {
         departureRef.current.focus();
-      } else if (newErrors.returnDate && returnRef.current) {
-        returnRef.current.focus();
       }
       return false;
     }
@@ -110,6 +108,7 @@ const SearchFlight = () => {
                   error={errors.from}
                   ref={fromRef}
                   clearError={() => clearFieldError("from")}
+                  nextRef={toRef}
                 />
               </div>
             </div>
@@ -126,6 +125,7 @@ const SearchFlight = () => {
                   setValue={setTo}
                   error={errors.to}
                   ref={toRef}
+                  nextRef={departureRef}
                   clearError={() => clearFieldError("to")}
                 />
               </div>
@@ -147,6 +147,7 @@ const SearchFlight = () => {
                   error={errors.departureDate}
                   ref={departureRef}
                   clearError={() => clearFieldError("departureDate")}
+                  nextRef={passengerRef}
                 />
               </div>
             </div>
@@ -163,11 +164,13 @@ const SearchFlight = () => {
                 data={airports}
                 value={passengers}
                 setValue={setPassengers}
+                ref={passengerRef}
               />
             </div>
           </div>
 
           <div className="flex justify-end mt-6">
+            {/* eslint-disable-next-line jsx-a11y/no-access-key */}
             <button
               className="bg-[#0076D6] hover:bg-[#005AA4] text-white rounded-lg px-6 py-2 "
               onClick={() => {
@@ -180,6 +183,7 @@ const SearchFlight = () => {
                   )}&departure=${departureDate}&return=${returnDate}&passengers=${passengers}&tripType=${tripType}`
                 );
               }}
+              accessKey="A"
             >
               Uçuş Ara
             </button>
@@ -194,7 +198,17 @@ export default SearchFlight;
 
 const InputArea = React.forwardRef(
   (
-    { label, placeholder, type, data = [], value, setValue, error, clearError },
+    {
+      label,
+      placeholder,
+      type,
+      data = [],
+      value,
+      setValue,
+      error,
+      clearError,
+      nextRef,
+    },
     ref
   ) => {
     const [internalValue, setInternalValue] = useState("");
@@ -289,6 +303,9 @@ const InputArea = React.forwardRef(
                   );
                   setShowDropdown(false);
                   if (typeof clearError === "function") clearError();
+                  if (label === "Kalkış" && nextRef?.current) {
+                    nextRef.current.focus();
+                  }
                 }
               }
             }}
@@ -347,7 +364,7 @@ const InputArea = React.forwardRef(
   }
 );
 const DateInputArea = React.forwardRef(
-  ({ label, placeholder, value, setValue, error }, ref) => {
+  ({ label, placeholder, value, setValue, error, nextRef }, ref) => {
     const [internalValue, setInternalValue] = useState("");
 
     const inputValue = typeof value === "string" ? value : internalValue;
@@ -376,6 +393,11 @@ const DateInputArea = React.forwardRef(
             aria-invalid={error ? "true" : undefined}
             aria-describedby={errorId}
             lang="tr"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && nextRef?.current) {
+                nextRef.current.focus();
+              }
+            }}
           />
         </div>
         {error && (
