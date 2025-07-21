@@ -278,6 +278,9 @@ const DateInputArea = React.forwardRef(
     return (
       <div className="flex flex-col rounded-lg p-2 w-full">
         {/* Removed label div for inaccessibility */}
+        <label htmlFor={label} className="text-gray-600 text-sm">
+          {label}
+        </label>
         <div className="relative">
           <input
             placeholder="Enter date"
