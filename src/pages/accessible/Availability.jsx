@@ -129,7 +129,19 @@ function Flight({ flight, navigate }) {
             aria-controls="fare-options"
           >
             {showOptions ? (
-              <span className="text-blue-600">
+              <span
+                className="text-blue-600"
+                aria-label={`Seçenekleri göster ${departureTime.toLocaleTimeString(
+                  "tr-TR",
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )} - ${arrivalTime.toLocaleTimeString("tr-TR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}`}
+              >
                 <span aria-hidden="true">▲</span> Seçenekleri gizle
               </span>
             ) : (

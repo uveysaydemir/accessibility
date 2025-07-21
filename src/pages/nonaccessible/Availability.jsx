@@ -104,9 +104,13 @@ function Flight({ flight, navigate }) {
             className="text-blue-600 hover:underline text-sm w-36 text-left px-1"
           >
             {showOptions ? (
-              <span className="text-blue-600">▲ Seçenekleri gizle</span>
+              <span className="text-blue-600">
+                ▲ <span aria-hidden="true">Seçenekleri gizle</span>
+              </span>
             ) : (
-              <span className="text-blue-600">▼ Seçenekleri göster</span>
+              <span className="text-blue-600">
+                ▼ <span aria-hidden="true">Seçenekleri göster</span>
+              </span>
             )}
           </button>
         </div>
@@ -185,7 +189,7 @@ function FlightInfo({ from, to, departure, passengers }) {
         <img
           className="h-16 w-full rounded-t-xl"
           src={BadFlightLogoHeader}
-          alt="Good Flight Logo"
+          alt=""
         />
       </div>
 

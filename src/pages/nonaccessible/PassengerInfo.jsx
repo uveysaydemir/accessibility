@@ -58,7 +58,7 @@ function FlightInfo({
         <img
           className="h-16 w-full rounded-t-xl"
           src={BadFlightLogoHeader}
-          alt="logo"
+          alt=""
         />
       </div>
       <div className="">

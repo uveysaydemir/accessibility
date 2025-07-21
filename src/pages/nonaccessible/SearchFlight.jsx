@@ -22,7 +22,6 @@ const SearchFlight = () => {
   const fromRef = useRef(null);
   const toRef = useRef(null);
   const departureRef = useRef(null);
-  const returnRef = useRef(null);
 
   const handleSearch = () => {
     const newErrors = {};
@@ -33,15 +32,7 @@ const SearchFlight = () => {
       newErrors.returnDate = "Required input field";
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      if (newErrors.from && fromRef.current) {
-        fromRef.current.focus();
-      } else if (newErrors.to && toRef.current) {
-        toRef.current.focus();
-      } else if (newErrors.departureDate && departureRef.current) {
-        departureRef.current.focus();
-      } else if (newErrors.returnDate && returnRef.current) {
-        returnRef.current.focus();
-      }
+
       return false;
     }
     return true;
@@ -56,7 +47,10 @@ const SearchFlight = () => {
   };
 
   return (
-    <div className="bg-[#d58585] min-h-screen flex flex-col items-center px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+    <div
+      lang="tr"
+      className="bg-[#d58585] min-h-screen flex flex-col items-center px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8"
+    >
       <div className="w-full h-[70vh]">
         <img className=" w-full h-[70vh] rounded-xl" src={HeaderLogo} alt="" />
       </div>
@@ -283,18 +277,24 @@ const DateInputArea = React.forwardRef(
 
     return (
       <div className="flex flex-col rounded-lg p-2 w-full">
-        <div className="text-gray-600 text-sm">{label}</div>
+        {/* Removed label div for inaccessibility */}
         <div className="relative">
           <input
-            placeholder={placeholder}
+            placeholder="Enter date"
             className="rounded-md p-2 w-full"
-            type="date"
-            value={inputValue}
+            type="text"
+            value={inputValue ? inputValue.split("-").reverse().join("/") : ""}
             onChange={(e) => {
-              setInputValue(e.target.value);
+              const val = e.target.value;
+              const parts = val.split("/");
+              if (parts.length === 3) {
+                const [dd, mm, yyyy] = parts;
+                setInputValue(`${yyyy}-${mm}-${dd}`);
+              } else {
+                setInputValue("");
+              }
             }}
-            min={new Date().toISOString().split("T")[0]}
-            ref={ref}
+            // Removed min attribute and ref for inaccessibility
           />
         </div>
       </div>
