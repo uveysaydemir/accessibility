@@ -1,7 +1,7 @@
 //ACCESSIBLE
 import { Calendar, PlaneLanding, PlaneTakeoff, User } from "lucide-react";
 import React, { useState, useRef } from "react";
-import HeaderLogo from "../../assets/BadFlightLogoHeader.png";
+import HeaderLogo from "../../assets/BadHeader.png";
 import { useNavigate } from "react-router-dom";
 import airports from "../../data/airports";
 

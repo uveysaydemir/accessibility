@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAirport, searchFlight } from "../../utils";
-import BadFlightLogoHeader from "../../assets/BadFlightLogoHeader.png";
+import BadFlightLogoHeader from "../../assets/BadHeader.png";
 import { Calendar, Plane, Users } from "lucide-react";
 
 export default function Availibility() {

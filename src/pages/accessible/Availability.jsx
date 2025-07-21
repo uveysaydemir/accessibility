@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAirport, searchFlight } from "../../utils";
-import GoodFlightLogoHeader from "../../assets/GoodFlightLogoHeader.png";
+import GoodFlightLogoHeader from "../../assets/GoodHeader.png";
 import { Calendar, Plane, Users } from "lucide-react";
 
 export default function Availibility() {
@@ -133,7 +133,19 @@ function Flight({ flight, navigate }) {
                 <span aria-hidden="true">▲</span> Seçenekleri gizle
               </span>
             ) : (
-              <span className="text-blue-600">
+              <span
+                className="text-blue-600"
+                aria-label={`Seçenekleri göster ${departureTime.toLocaleTimeString(
+                  "tr-TR",
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )} - ${arrivalTime.toLocaleTimeString("tr-TR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}`}
+              >
                 <span aria-hidden="true">▼</span> Seçenekleri göster
               </span>
             )}
