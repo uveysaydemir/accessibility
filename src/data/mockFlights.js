@@ -158,7 +158,7 @@ const mockFlights = [
     fromLoc: "SAW",
     toLoc: "ADB",
     fromDate: new Date().toISOString().split("T")[0],
-    fromTime: new Date(new Date().setHours(9, 10, 0, 0)),
+    fromTime: new Date(new Date().setHours(19, 10, 0, 0)),
     duration: {
       hours: 1,
       minutes: 10,

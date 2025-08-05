@@ -152,6 +152,7 @@ function PaymentForm({ price }) {
           </label>
           <input
             type="text"
+            id="cardNumber"
             className="w-full border border-gray-300 rounded px-3 py-2"
             placeholder="1234 5678 9012 3456"
             autoComplete="off"
@@ -161,6 +162,7 @@ function PaymentForm({ price }) {
           <label className="block text-sm font-medium mb-1">Ad Soyad</label>
           <input
             type="text"
+            id="nameOnCard"
             className="w-full border border-gray-300 rounded px-3 py-2"
             placeholder="Adınız Soyadınız"
             autoComplete="off"
@@ -171,6 +173,7 @@ function PaymentForm({ price }) {
             <label className="block text-sm font-medium mb-1">SKT</label>
             <input
               type="text"
+              id="expiry"
               className="w-full border border-gray-300 rounded px-3 py-2"
               placeholder="AA/YY"
               autoComplete="off"
@@ -180,6 +183,7 @@ function PaymentForm({ price }) {
             <label className="block text-sm font-medium mb-1">CVV</label>
             <input
               type="password"
+              id="cvv"
               className="w-full border border-gray-300 rounded px-3 py-2"
               placeholder="123"
               autoComplete="off"
@@ -190,8 +194,49 @@ function PaymentForm({ price }) {
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded mt-4"
           onClick={(e) => {
             e.preventDefault();
-            alert("Ödeme işlemi başarıyla tamamlandı!");
-            window.location.href = "/";
+
+            const cardNumber = document
+              .getElementById("cardNumber")
+              .value.trim();
+            const nameOnCard = document
+              .getElementById("nameOnCard")
+              .value.trim();
+            const expiry = document.getElementById("expiry").value.trim();
+            const cvv = document.getElementById("cvv").value.trim();
+
+            if (!cardNumber || !nameOnCard || !expiry || !cvv) {
+              alert("Lütfen tüm alanları doldurun.");
+              return;
+            }
+
+            const validCardNumber = "4111 1111 1111 1111";
+            const validNameOnCard = "John Doe";
+            const validExpiry = "08/26";
+            const validCvv = "439";
+
+            if (
+              cardNumber === validCardNumber.replaceAll(" ", "").trim() &&
+              nameOnCard.toLowerCase() === validNameOnCard.toLowerCase() &&
+              expiry === validExpiry &&
+              cvv === validCvv
+            ) {
+              alert("Ödeme işlemi başarıyla tamamlandı!");
+              // window.location.href = "/";
+
+              const alertElement = document.createElement("div");
+              alertElement.setAttribute("role", "alert");
+              alertElement.setAttribute("aria-live", "assertive");
+              alertElement.style.position = "absolute";
+              alertElement.style.top = "-9999px";
+              alertElement.textContent = "Ödeme işlemi başarıyla tamamlandı!";
+              document.body.appendChild(alertElement);
+
+              setTimeout(() => {
+                document.body.removeChild(alertElement);
+              }, 3000);
+            } else {
+              alert("Ödeme bilgileri geçersiz.");
+            }
           }}
         >
           Ödemeyi Tamamla

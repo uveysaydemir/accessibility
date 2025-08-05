@@ -370,28 +370,46 @@ function PaymentForm({ price }) {
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded mt-4"
           onClick={(e) => {
             e.preventDefault();
-            if (
-              !document.getElementById("cardNumber").value ||
-              !document.getElementById("nameOnCard").value ||
-              !expiry ||
-              !document.getElementById("cvv").value
-            ) {
+
+            const cardNumber = document
+              .getElementById("cardNumber")
+              .value.trim();
+            const nameOnCard = document
+              .getElementById("nameOnCard")
+              .value.trim();
+            const cvv = document.getElementById("cvv").value.trim();
+
+            if (!cardNumber || !nameOnCard || !expiry || !cvv) {
               alert("Lütfen tüm alanları doldurun.");
               return;
             }
-            alert("Ödeme işlemi başarıyla tamamlandı!");
-            window.location.href = "/";
-            const alertElement = document.createElement("div");
-            alertElement.setAttribute("role", "alert");
-            alertElement.setAttribute("aria-live", "assertive");
-            alertElement.style.position = "absolute";
-            alertElement.style.top = "-9999px";
-            alertElement.textContent = "Ödeme işlemi başarıyla tamamlandı!";
-            document.body.appendChild(alertElement);
+            const validCardNumber = "4111 1111 1111 1111";
+            const validNameOnCard = "John Doe";
+            const validExpiry = "08/26";
+            const validCvv = "439";
 
-            setTimeout(() => {
-              document.body.removeChild(alertElement);
-            }, 3000);
+            if (
+              cardNumber === validCardNumber.replaceAll(" ", "").trim() &&
+              nameOnCard.toLowerCase() === validNameOnCard.toLowerCase() &&
+              expiry === validExpiry &&
+              cvv === validCvv
+            ) {
+              alert("Ödeme işlemi başarıyla tamamlandı!");
+              // window.location.href = "/";
+              const alertElement = document.createElement("div");
+              alertElement.setAttribute("role", "alert");
+              alertElement.setAttribute("aria-live", "assertive");
+              alertElement.style.position = "absolute";
+              alertElement.style.top = "-9999px";
+              alertElement.textContent = "Ödeme işlemi başarıyla tamamlandı!";
+              document.body.appendChild(alertElement);
+
+              setTimeout(() => {
+                document.body.removeChild(alertElement);
+              }, 3000);
+            } else {
+              alert("Ödeme bilgileri geçersiz.");
+            }
           }}
         >
           Ödemeyi Tamamla
