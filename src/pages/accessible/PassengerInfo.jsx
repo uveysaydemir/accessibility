@@ -201,10 +201,17 @@ function PaymentForm({ price }) {
   };
 
   const blockNonNumeric = (e) => {
-    const allowed = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"];
-    if (!/^\d$/.test(e.key) && !allowed.includes(e.key)) {
-      e.preventDefault();
-    }
+    // const allowed = [
+    //   "Backspace",
+    //   "Delete",
+    //   "ArrowLeft",
+    //   "ArrowRight",
+    //   "Tab",
+    //   "Control",
+    // ];
+    // if (!/^\d$/.test(e.key) && !allowed.includes(e.key)) {
+    //   e.preventDefault();
+    // }
   };
 
   const blockNonAlphabetic = (e) => {
