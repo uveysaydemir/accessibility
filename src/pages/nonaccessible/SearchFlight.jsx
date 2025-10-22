@@ -56,9 +56,9 @@ const SearchFlight = () => {
       </div>
       <div className="relative z-10 -mt-[10vh] px-5 w-full max-w-[90%] mx-auto">
         <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-[90%] mx-auto">
-          <h1 className="text-xl font-semibold mb-6">
+          <div className="text-xl font-semibold mb-6">
             Erişilebilir Olmayan Uçuş Arama
-          </h1>
+          </div>
           {/* Trip Type Selection */}
           <div className="flex space-x-6 mb-6">
             <input

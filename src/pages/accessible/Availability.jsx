@@ -229,7 +229,7 @@ function FareCard({ onClick, type, packageOption, price, badge }) {
       </ul>
       <div className="flex items-end">
         <button
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          className="w-full bg-[#0A5ADB] text-white py-2 rounded hover:bg-blue-700 transition"
           aria-label={`${type} seçeneği için ödeme yapın ${price} Türk Lirası`}
           onClick={onClick}
         >
