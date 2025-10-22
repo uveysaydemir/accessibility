@@ -13,11 +13,21 @@ export default function WelcomePage() {
       </div>
 
       <div className="flex flex-col sm:flex-row justify-center items-center gap-8 p-5 flex-9 h-[90vh]">
-        <div>
+        <div className="flex flex-col justify-center items-center">
           <Logo variant={LogoVariant.GOOD} />
+          <img
+            src="/i.png"
+            alt="%50 indirim kampanyası"
+            className="mt-4 rounded-lg shadow-lg w-24 h-24"
+          />
         </div>
-        <div>
+        <div className="flex flex-col justify-center items-center">
           <Logo variant={LogoVariant.BAD} />
+          <img
+            src="/i.png"
+            alt="image_12312"
+            className="mt-4 rounded-lg shadow-lg w-24 h-24"
+          />
         </div>
       </div>
     </div>

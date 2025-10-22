@@ -374,7 +374,7 @@ function PaymentForm({ price }) {
         </div>
 
         <button
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded mt-4"
+          className="bg-[#0A5ADB] hover:bg-[#005AA4] text-white font-semibold py-2 rounded mt-4"
           onClick={(e) => {
             e.preventDefault();
 
